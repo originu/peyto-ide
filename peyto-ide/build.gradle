@@ -15,12 +15,12 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	// implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	// implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// implementation 'org.liquibase:liquibase-core'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	runtimeOnly 'org.postgresql:postgresql'

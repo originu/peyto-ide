@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="peyto.ide.dao.api.DBCatalogDao">
+
+    <select id="getSchemas" resultType="peyto.ide.dto.DBSchemaDto">
+		select
+			catalog_name
+			, schema_name
+			, schema_owner
+		from
+			information_schema.schemata
+		where
+			catalog_name = #{catalogName}
+		order by
+			schema_name asc
+    </select>
+
+    <select id="getTables" resultType="peyto.ide.dto.DBTableDto">
+    	select
+			table_catalog
+			, table_schema 
+			, table_name   
+			, table_type
+		from
+			information_schema.tables
+    	where
+    		table_catalog    = #{catalogName}
+    		and table_schema = #{schemaName}  
+    </select>
+    
+    <select id="getColumns" resultType="peyto.ide.dto.DBColumnDto">
+		select
+	        c.table_catalog
+	        , c.table_schema
+	        , c.table_name
+	        , c.column_name
+	        , c.ordinal_position
+	        , c.column_default
+	        , c.is_nullable
+	        , c.data_type
+	        , c.character_maximum_length
+	        , c.numeric_precision
+	        , c.numeric_precision_radix
+	        , c.numeric_scale
+	        , c.datetime_precision
+	        , ( CASE WHEN cc.constraint_type = 'PRIMARY KEY' 
+	        	THEN c.ordinal_position
+            	ELSE 0
+            	END 
+            ) as pk_order
+		from
+			information_schema.columns as c
+		left outer join (
+	        select
+	               ccu.table_catalog
+	               , ccu.table_schema
+	               , ccu.table_name
+	               , ccu.column_name
+	               , tc.constraint_type
+	        from information_schema.constraint_column_usage as ccu
+	        inner join information_schema.table_constraints as tc
+	            on  ccu.table_catalog   = tc.table_catalog
+	            and ccu.table_schema    = tc.table_schema
+	            and ccu.table_name      = tc.table_name
+				and ccu.constraint_name = tc.constraint_name
+	        where tc.table_catalog      = #{catalogName}
+	            and tc.table_schema     = #{schemaName}  
+	            and tc.table_name       = #{tableName}
+	            and tc.constraint_type  = 'PRIMARY KEY'
+		) as cc
+			on  c.table_catalog   = cc.table_catalog
+			and c.table_schema    = cc.table_schema
+			and c.table_name      = cc.table_name
+			and c.column_name     = cc.column_name
+		where
+			c.table_catalog = #{catalogName}
+			and   c.table_schema  = #{schemaName}  
+			and   c.table_name    = #{tableName}
+		order by
+			c.ordinal_position asc
+    </select>
+
+</mapper>
