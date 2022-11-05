@@ -28,9 +28,9 @@ public class FreemarkerTemplateService implements TemplateService {
         this.cfg = cfg;
     }
 
-    public void generate(Object dataModel, Writer out) throws IOException, TemplateException {
+    public void generate(String template, Object dataModel, Writer out) throws IOException, TemplateException {
         /* Get the template (uses cache internally) */
-        Template temp = cfg.getTemplate("mybatis/basic_mapper.ftlh");
+        Template temp = cfg.getTemplate(template);
 //        Template temp = cfg.getTemplate("test.ftlh");
         /* Merge data-model with template */
         temp.process(dataModel, out);

@@ -28,8 +28,7 @@ public class SqlGenerationService {
 	@Autowired
 	private FreemarkerTemplateService templateService;
 	
-	public String generateByTableName(TableInfo tableInfo) {
-		
+	public byte[] generateByTableName(TableInfo tableInfo) {
 		DBTableDto table = dbCatalogDao.getTable(tableInfo.getTableCatalog(), 
 				tableInfo.getTableSchema(), 
 				tableInfo.getTableName());
@@ -63,8 +62,8 @@ public class SqlGenerationService {
 		try {
 			ByteArrayOutputStream	bos = new ByteArrayOutputStream();
 			Writer out = new OutputStreamWriter(bos);
-			templateService.generate(dataModel, out);
-			return new String(bos.toByteArray());
+			templateService.generate("mybatis/basic_mapper.ftlh", dataModel, out);
+			return bos.toByteArray();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TemplateException e) {
