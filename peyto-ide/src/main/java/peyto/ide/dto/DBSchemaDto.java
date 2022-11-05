@@ -6,7 +6,6 @@ public class DBSchemaDto {
 
 	private String catalogName;
 	private String schemaName;
-	private String schemaOwner;
 
 	public String getCatalogName() {
 		return catalogName;
@@ -22,14 +21,6 @@ public class DBSchemaDto {
 
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
-	}
-
-	public String getSchemaOwner() {
-		return schemaOwner;
-	}
-
-	public void setSchemaOwner(String schemaOwner) {
-		this.schemaOwner = schemaOwner;
 	}
 
 	@Override

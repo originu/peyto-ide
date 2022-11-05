@@ -9,7 +9,6 @@
 		select
 			catalog_name
 			, schema_name
-			, '' as schema_owner
 		from
 			information_schema.schemata
 		where
@@ -24,6 +23,7 @@
 			, table_schema 
 			, table_name   
 			, table_type
+			, table_name as logicalTableName
 		from
 			information_schema.tables
     	where

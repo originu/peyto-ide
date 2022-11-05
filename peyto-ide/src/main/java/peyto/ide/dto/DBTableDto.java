@@ -8,6 +8,7 @@ public class DBTableDto {
 	private String tableSchema;
 	private String tableName;
 	private String tableType;
+	private String logicalTableName;
 
 	public String getTableCatalog() {
 		return tableCatalog;
@@ -39,6 +40,14 @@ public class DBTableDto {
 
 	public void setTableType(String tableType) {
 		this.tableType = tableType;
+	}
+
+	public String getLocalTableName() {
+		return logicalTableName;
+	}
+
+	public void setLogicalTableName(String logicalTableName) {
+		this.logicalTableName = logicalTableName;
 	}
 
 	@Override
