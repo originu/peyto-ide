@@ -2,9 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${namespace}">
-
+    
     <select id="${selectId}" resultType="${selectResultType}">
-        select * from ${tableName}
+        select
+        <#list tableColumns as tableColumn>
+            <#if tableColumn?counter == 1>
+            ${tableColumn.columnName}    as ${tableColumn.columnName}  /* ${tableColumn.columnName} */ 
+            <#else>
+            , ${tableColumn.columnName}  as ${tableColumn.columnName}  /* ${tableColumn.columnName} */ 
+            </#if>
+        </#list>
+        from ${tableName}
     </select>
 
 </mapper>
