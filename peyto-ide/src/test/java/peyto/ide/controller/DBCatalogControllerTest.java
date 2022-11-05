@@ -55,7 +55,7 @@ class DBCatalogControllerTest {
 //	            .content(objectMapper.writeValueAsString(user)))
 //	            .andExpect(status().isOk());
 		
-		ResultActions perform = mockMvc.perform(get("/db/catalog"));
+		ResultActions perform = mockMvc.perform(get("/api/db/catalog"));
 		MvcResult andReturn = perform.andReturn();
 		MockHttpServletResponse response = andReturn.getResponse();
 		String contentAsString = response.getContentAsString();

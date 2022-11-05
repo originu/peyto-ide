@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import peyto.ide.dao.api.DBCatalogDao;
 import peyto.ide.dto.DBSchemaDto;
 
 @Controller
+@RequestMapping("/api")
 public class DBCatalogController {
 
 	@Autowired
