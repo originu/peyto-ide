@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 
 import peyto.ide.dto.DaoInfo;
+import peyto.ide.dto.DtoInfo;
+import peyto.ide.dto.TableInfo;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -37,6 +39,23 @@ class DaoGenerationServiceTest {
 		daoInfo.setReturnType("Map<String,Object>");
 		
 		byte[] raw = daoGenerationService.generateDaoTest(daoInfo);
+		System.out.println(new String(raw));
+	}
+
+	@Test
+	void testGenerateDto() throws Exception {
+		DtoInfo dtoInfo = new DtoInfo();
+//		dtoInfo.setPackageName("peyto.ide.dao.api");
+//		dtoInfo.setClassName("SampleDao");
+//		dtoInfo.setSelectId("getItems");
+//		dtoInfo.setReturnType("Map<String,Object>");
+		
+		dtoInfo.setTableCatalog("postgres");
+		dtoInfo.setTableSchema("information_schema");
+		dtoInfo.setTableName("tables");
+		dtoInfo.setPackageName("peyto.ide.dto");
+		
+		byte[] raw = daoGenerationService.generateDto(dtoInfo);
 		System.out.println(new String(raw));
 	}
 
