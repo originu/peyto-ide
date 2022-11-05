@@ -52,9 +52,8 @@ class TemplateServiceTest {
 		root.put("selectResultType", "HashMap");
 		root.put("tableName", "sample_table");
 		Writer out = new OutputStreamWriter(bos);
-		freemarkerTemplateService.generate(root, out);
-		String s = new String(bos.toByteArray());
-		System.out.println( ">> " + s );
+		freemarkerTemplateService.generate("mybatis/basic_mapper.ftlh", root, out);
+		System.out.println( ">> " + new String(bos.toByteArray()) );
 	}
 
 }

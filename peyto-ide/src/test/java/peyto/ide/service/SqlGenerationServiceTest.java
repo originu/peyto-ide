@@ -46,11 +46,11 @@ class SqlGenerationServiceTest {
 		tableInfo.setTableName("tables");
 		
 		tableInfo.setNamespace("jedivin.peyto.dao.api.SampleDao");
-		tableInfo.setSelectId("getOne");
+		tableInfo.setSelectId("getItems");
 		tableInfo.setSelectResultType("HashMap");
 		
-		String sql = sqlGenerationService.generateByTableName(tableInfo);
-		System.out.println(sql);
+		byte[] raw = sqlGenerationService.generateByTableName(tableInfo);
+		System.out.println(new String(raw));
 
 	}
 
