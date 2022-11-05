@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Peyto"
+            id="peyto.ide">
+      </category>
+      <view
+            id="peyto.ide.views.DBErdView"
+            name="DB ERD"
+            icon="icons/sample.png"
+            class="peyto.ide.views.DBErdView"
+            category="peyto.ide"
+            inject="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="peyto.ide.views.DBErdView"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               ratio="0.5">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="peyto.ide.preferences.PeytoPreferencePage"
+            id="peyto.ide.preferences.PeytoPreferencePage"
+            name="Peyto Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="peyto.ide.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
