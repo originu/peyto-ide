@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  peyto-ide-mysql:
+    image: mysql:8.0.29
+    volumes:
+      - /tmp/volumes/peyto-ide-mysql/data
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=jedivindb
+    command:            
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake      
+    ports:
+      - 0.0.0.0:3306:3306
