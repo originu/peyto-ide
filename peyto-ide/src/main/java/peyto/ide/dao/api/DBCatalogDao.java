@@ -17,8 +17,14 @@ public interface DBCatalogDao {
 	List<DBSchemaDto> getSchemas(@Param("catalogName") String catalogName);
 
 	List<DBTableDto> getTables(
-			@Param("catalogName") String catalogName, 
-			@Param("schemaName") String schemaName);
+			@Param("tableCatalog") String tableCatalog, 
+			@Param("tableSchema") String tableSchema);
+	
+	DBTableDto getTable(
+			@Param("tableCatalog") String tableCatalog, 
+			@Param("tableSchema") String tableSchema,
+			@Param("tableName") String tableName);
+	
 
 	List<DBColumnDto> getColumns(
 			@Param("catalogName") String catalogName, 

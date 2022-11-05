@@ -1,14 +1,15 @@
 package peyto.ide.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import peyto.ide.dto.TableInfo;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -39,7 +40,17 @@ class SqlGenerationServiceTest {
 
 	@Test
 	void test() throws Exception {
-
+		TableInfo tableInfo = new TableInfo();
+		tableInfo.setTableCatalog("postgres");
+		tableInfo.setTableSchema("information_schema");
+		tableInfo.setTableName("tables");
+		
+		tableInfo.setNamespace("jedivin.peyto.dao.api.SampleDao");
+		tableInfo.setSelectId("getOne");
+		tableInfo.setSelectResultType("HashMap");
+		
+		String sql = sqlGenerationService.generateByTableName(tableInfo);
+		System.out.println(sql);
 
 	}
 

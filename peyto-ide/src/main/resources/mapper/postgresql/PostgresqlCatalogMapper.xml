@@ -27,8 +27,23 @@
 		from
 			information_schema.tables
     	where
-    		table_catalog    = #{catalogName}
-    		and table_schema = #{schemaName}  
+    		table_catalog    = #{tableCatalog}
+    		and table_schema = #{tableSchema}  
+    </select>
+    
+    <select id="getTable" resultType="peyto.ide.dto.DBTableDto">
+    	select
+			table_catalog
+			, table_schema
+			, table_name
+			, table_type
+			, table_name as logicalTableName
+		from
+			information_schema.tables
+    	where
+    		table_catalog    = #{tableCatalog}
+    		and table_schema = #{tableSchema} 
+    		and table_name   = #{tableName}
     </select>
     
     <select id="getColumns" resultType="peyto.ide.dto.DBColumnDto">
