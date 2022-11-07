@@ -16,11 +16,6 @@
             category="peyto.ide"
             inject="true">
       </view>
-      <view
-            class="peyto.ide.views.DBErdView4"
-            id="peyto.ide.views.DBErdView4"
-            name="New ViewPart">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
