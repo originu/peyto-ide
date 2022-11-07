@@ -42,14 +42,14 @@ public class DBTableDto {
 		this.tableType = tableType;
 	}
 
-	public String getLocalTableName() {
+	public String getLogicalTableName() {
 		return logicalTableName;
 	}
 
 	public void setLogicalTableName(String logicalTableName) {
 		this.logicalTableName = logicalTableName;
 	}
-
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

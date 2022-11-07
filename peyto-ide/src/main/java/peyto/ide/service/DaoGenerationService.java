@@ -80,7 +80,7 @@ public class DaoGenerationService {
 	
 		HashMap<String,Object> dataModel = new HashMap<String,Object>();
 		dataModel.put("packageName", dtoInfo.getPackageName());
-		dataModel.put("className", table.getLocalTableName());
+		dataModel.put("className", table.getLogicalTableName());
 		dataModel.put("tableColumns", columns);
 
 		try {
