@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -27,9 +28,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import peyto.ide.core.data.DBSchemaDto;
 import peyto.ide.core.data.DBTableDto;
@@ -39,12 +38,15 @@ import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
 
 public class DBTableListUI extends Composite {
+	
+	private Combo tableCombo;
 	private Text filterText;
 	private Table table;
 	private TableViewer tableViewer;
 
 	
 	private HttpService httpService;
+	private DBColumnListUI dbColumnListUI;
 	
 	/**
 	 * Create the composite.
@@ -55,13 +57,10 @@ public class DBTableListUI extends Composite {
 		super(parent, style);
 		setLayout(new GridLayout(3, false));
 
-		httpService = new HttpService();
-		httpService.startup();
-		
 		Label schemaLabel = new Label(this, SWT.NONE);
 		schemaLabel.setText("Schema");
 		
-		Combo tableCombo = new Combo(this, SWT.READ_ONLY);
+		tableCombo = new Combo(this, SWT.READ_ONLY);
 		GridData gd_tableCombo = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_tableCombo.widthHint = 258;
 		tableCombo.setLayoutData(gd_tableCombo);
@@ -77,9 +76,7 @@ public class DBTableListUI extends Composite {
 						try {
 							ResData<List<DBTableDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<DBTableDto>>>() {});
 							tableViewer.setInput(data.getBody());
-						} catch (JsonMappingException e) {
-							e.printStackTrace();
-						} catch (JsonProcessingException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -108,9 +105,7 @@ public class DBTableListUI extends Composite {
 								tableCombo.add(item.getSchemaName());
 							});
 							tableCombo.update();
-						} catch (JsonMappingException e) {
-							e.printStackTrace();
-						} catch (JsonProcessingException e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -167,7 +162,9 @@ public class DBTableListUI extends Composite {
 		tableViewer.addDoubleClickListener( new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
-				System.out.println();
+				IStructuredSelection	selection	= (IStructuredSelection)event.getSelection();
+				DBTableDto selectedDBTableDto = ( DBTableDto)selection.getFirstElement();
+				dbColumnListUI.updateTableData(selectedDBTableDto);
 			}
 		});
 		table.addKeyListener( new KeyAdapter() {
@@ -201,4 +198,21 @@ public class DBTableListUI extends Composite {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
+
+	public void setHttpService(HttpService httpService) {
+		this.httpService = httpService;
+	}
+	
+	public HttpService getHttpService() {
+		return this.httpService;
+	}
+
+	public void setDBColumnListUI(DBColumnListUI dbColumnListUI) {
+		this.dbColumnListUI = dbColumnListUI;
+	}
+	
+	public DBColumnListUI getDBColumnListUI() {
+		return dbColumnListUI;
+	}
+	
 }

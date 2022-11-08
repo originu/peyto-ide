@@ -60,10 +60,13 @@ public class DBErdView extends ViewPart {
 		toolkit.paintBordersFor(sashForm);
 		
 		DBTableListUI dbTableListUIComposite = new DBTableListUI(sashForm, SWT.NONE);
+		dbTableListUIComposite.setHttpService(httpService);
 		toolkit.adapt(dbTableListUIComposite);
 		toolkit.paintBordersFor(dbTableListUIComposite);
 		
 		DBColumnListUI dbColumnListUIComposite = new DBColumnListUI(sashForm, SWT.NONE);
+		dbColumnListUIComposite.setHttpService(httpService);
+		dbTableListUIComposite.setDBColumnListUI(dbColumnListUIComposite);
 		toolkit.adapt(dbColumnListUIComposite);
 		toolkit.paintBordersFor(dbColumnListUIComposite);
 		sashForm.setWeights(new int[] {332, 659});
