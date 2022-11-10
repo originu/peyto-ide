@@ -49,5 +49,16 @@
             class="peyto.ide.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="peyto.ide.editors.java.mybatis.JavaMybatisGenEditor"
+            contributorClass="peyto.ide.editors.java.mybatis.JavaMybatisGenEditorContributor"
+            extensions="p01"
+            icon="icons/sample.png"
+            id="peyto.ide.editors.java.mybatis.JavaMybatisGenEditor"
+            name="Peyto Mybatis">
+      </editor>
+   </extension>
 
 </plugin>
