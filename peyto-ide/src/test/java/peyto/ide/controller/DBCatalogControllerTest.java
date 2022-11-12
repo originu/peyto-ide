@@ -1,17 +1,6 @@
 package peyto.ide.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +8,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-//@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
 class DBCatalogControllerTest {
@@ -55,7 +44,7 @@ class DBCatalogControllerTest {
 //	            .content(objectMapper.writeValueAsString(user)))
 //	            .andExpect(status().isOk());
 		
-		ResultActions perform = mockMvc.perform(get("/api/db/catalog"));
+		ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.get("/api/db/catalog"));
 		MvcResult andReturn = perform.andReturn();
 		MockHttpServletResponse response = andReturn.getResponse();
 		String contentAsString = response.getContentAsString();

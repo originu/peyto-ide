@@ -1,7 +1,5 @@
 package peyto.ide.editors.generation;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -18,12 +16,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import peyto.ide.core.service.SimpleSourceCodeService;
+import peyto.ide.core.service.types.SourceGroupType;
+
 public class SourceCodeGenConfigComposite extends Composite {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
 	private AbstractApplicationContext appContext;
 	
 	private SourceCodeGenEditor sourceCodeGenEditor;
+	
+	private ComboViewer comboViewer;
 	
 	/**
 	 * Create the composite.
@@ -35,16 +38,17 @@ public class SourceCodeGenConfigComposite extends Composite {
 		setLayout(new GridLayout(1, false));
 		new Label(this, SWT.NONE);
 		
-		ComboViewer comboViewer = new ComboViewer(this, SWT.READ_ONLY);
+		comboViewer = new ComboViewer(this, SWT.READ_ONLY);
 		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
 		comboViewer.setLabelProvider(new LabelProvider() {
 		    @Override
 		    public String getText(Object element) {
-//		        if (element instanceof Person) {
-//		            Person person = (Person) element;
-//		            return person.getFirstName();
-//		        }
-		        return super.getText(element);
+		        if (element instanceof SourceGroupType) {
+		        	SourceGroupType type = (SourceGroupType) element;
+		            return type.name();
+		        } else {
+		        	return "unknown";
+		        }
 		    }
 		});
 		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -52,17 +56,11 @@ public class SourceCodeGenConfigComposite extends Composite {
 		    public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		        if (selection.size() > 0){
-		        	sourceCodeGenEditor.updatePages((String)selection.getFirstElement());
+		        	sourceCodeGenEditor.updatePages((SourceGroupType)selection.getFirstElement());
 		        }
 		    }
 		});
-		ArrayList<String>	items = new ArrayList<>();
-		items.add("mybatis");
-		items.add("spring jpa");
-		items.add("sql");
-		comboViewer.setInput(items);
 		Combo combo = comboViewer.getCombo();
-
 		GridData gd_combo = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_combo.widthHint = 170;
 		combo.setLayoutData(gd_combo);
@@ -80,5 +78,11 @@ public class SourceCodeGenConfigComposite extends Composite {
 
 	public void setApplicationContext(AbstractApplicationContext appContext) {
 		this.appContext = appContext;
+	}
+	
+	public void init() {
+		SimpleSourceCodeService service = appContext.getBean(SimpleSourceCodeService.class);
+		SourceGroupType[] values = SourceGroupType.values();
+		comboViewer.setInput(values);
 	}
 }
