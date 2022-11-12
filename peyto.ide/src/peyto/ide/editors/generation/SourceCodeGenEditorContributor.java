@@ -1,4 +1,4 @@
-package peyto.ide.editors.java.mybatis;
+package peyto.ide.editors.generation;
 
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -18,13 +18,13 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
  * Responsible for the redirection of global actions to the active editor.
  * Multi-page contributor replaces the contributors for the individual editors in the multi-page editor.
  */
-public class JavaMybatisGenEditorContributor extends MultiPageEditorActionBarContributor {
+public class SourceCodeGenEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
 	private Action sampleAction;
 	/**
 	 * Creates a multi-page contributor.
 	 */
-	public JavaMybatisGenEditorContributor() {
+	public SourceCodeGenEditorContributor() {
 		super();
 		createActions();
 	}

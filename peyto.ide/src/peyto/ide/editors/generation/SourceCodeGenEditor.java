@@ -1,4 +1,4 @@
-package peyto.ide.editors.java.mybatis;
+package peyto.ide.editors.generation;
 
 
 import org.eclipse.core.resources.IMarker;
@@ -17,29 +17,22 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-public class JavaMybatisGenEditor extends MultiPageEditorPart implements IResourceChangeListener{
+public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
-	public JavaMybatisGenEditor() {
+	public SourceCodeGenEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 
 	protected void createPages() {
-		JavaMybatisGenConfigComposite composite0 = new JavaMybatisGenConfigComposite( getContainer(), SWT.NONE);
-		int index = addPage(composite0 );
+		SourceCodeGenConfigComposite configCompositie = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
+		configCompositie.setJavaMybatisGenEditor(this);
+		int index = addPage(configCompositie );
 		setPageText(index, "Configuration");
 		
-		JavaMybatisGenDaoComposite composite1 = new JavaMybatisGenDaoComposite( getContainer(), SWT.NONE);
+		SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
 		index = addPage(composite1 );
 		setPageText(index, "DAO");
-		
-		JavaMybatisGenDaoTestComposite composite2 = new JavaMybatisGenDaoTestComposite( getContainer(), SWT.NONE);
-		index = addPage(composite2 );
-		setPageText(index, "DAO Test");
-		
-		JavaMybatisGenDtoComposite composite3 = new JavaMybatisGenDtoComposite( getContainer(), SWT.NONE);
-		index = addPage(composite3 );
-		setPageText(index, "DTO");
 		
 //			ErrorDialog.openError(
 //				getSite().getShell(),
@@ -47,6 +40,27 @@ public class JavaMybatisGenEditor extends MultiPageEditorPart implements IResour
 //				null,
 //				e.getStatus());
 	}
+	
+	public void updatePages(String type) {
+		int pageCount = getPageCount();
+		for (int i = (pageCount -1); i > 0; i--) {
+			removePage(i);
+		}
+		if( type.equals("mybatis") ) {
+			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			int index = addPage(composite1 );
+			setPageText(index, "DAO");
+		} else if (type.equals("spring jpa")) {
+			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			int index = addPage(composite1 );
+			setPageText(index, "Mapper");
+		} else {
+			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			int index = addPage(composite1 );
+			setPageText(index, "SQL");
+		}
+	}
+	
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this 
 	 * <code>IWorkbenchPart</code> method disposes all nested editors.
