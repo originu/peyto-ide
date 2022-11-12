@@ -1,6 +1,5 @@
 package peyto.ide.editors.generation;
 
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -16,21 +15,27 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
+	private AbstractApplicationContext appContext;
+	
 	public SourceCodeGenEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
-
+	
 	protected void createPages() {
 		SourceCodeGenConfigComposite configCompositie = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
+		configCompositie.setApplicationContext(appContext);
 		configCompositie.setJavaMybatisGenEditor(this);
 		int index = addPage(configCompositie );
 		setPageText(index, "Configuration");
 		
+		
 		SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+		composite1.setApplicationContext(appContext);
 		index = addPage(composite1 );
 		setPageText(index, "DAO");
 		
@@ -103,6 +108,8 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 		if (!(editorInput instanceof IFileEditorInput))
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		// DI
+		appContext = getSite().getService(AbstractApplicationContext.class);
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart.

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/spring-expression-5.3.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-aop-5.3.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-core-5.3.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-beans-5.3.23.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/spring-context-5.3.23.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.14.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.14.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.14.0.jar"/>

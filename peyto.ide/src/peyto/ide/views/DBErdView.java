@@ -1,6 +1,7 @@
 package peyto.ide.views;
 
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.swt.SWT;
@@ -10,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import peyto.ide.core.service.HttpService;
 import peyto.ide.views.erd.DBColumnListUI;
@@ -40,11 +42,18 @@ public class DBErdView extends ViewPart {
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	@Inject
+	private AbstractApplicationContext appContext;
+	
 	private HttpService httpService;
 	
 	public DBErdView() {
 	}
-
+	
+	@PostConstruct
+	public void startup() {
+		httpService = appContext.getBean(HttpService.class);
+	}
+	
 	/**
 	 * Create contents of the view part.
 	 * @param parent

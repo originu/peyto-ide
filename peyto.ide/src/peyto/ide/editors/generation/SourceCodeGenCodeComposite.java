@@ -15,9 +15,12 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class SourceCodeGenCodeComposite extends Composite {
 
+	private AbstractApplicationContext appContext;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -94,5 +97,9 @@ public class SourceCodeGenCodeComposite extends Composite {
 //        	}
         }
     };
+
+	public void setApplicationContext(AbstractApplicationContext appContext) {
+		this.appContext = appContext;
+	}
 	
 }

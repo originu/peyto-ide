@@ -16,11 +16,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class SourceCodeGenConfigComposite extends Composite {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
-	private SourceCodeGenEditor javaMybatisGenEditor;
+	private AbstractApplicationContext appContext;
+	
+	private SourceCodeGenEditor sourceCodeGenEditor;
 	
 	/**
 	 * Create the composite.
@@ -49,7 +52,7 @@ public class SourceCodeGenConfigComposite extends Composite {
 		    public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 		        if (selection.size() > 0){
-		        	javaMybatisGenEditor.updatePages((String)selection.getFirstElement());
+		        	sourceCodeGenEditor.updatePages((String)selection.getFirstElement());
 		        }
 		    }
 		});
@@ -72,6 +75,10 @@ public class SourceCodeGenConfigComposite extends Composite {
 	}
 
 	public void setJavaMybatisGenEditor(SourceCodeGenEditor javaMybatisGenEditor) {
-		this.javaMybatisGenEditor = javaMybatisGenEditor;		
+		this.sourceCodeGenEditor = javaMybatisGenEditor;		
+	}
+
+	public void setApplicationContext(AbstractApplicationContext appContext) {
+		this.appContext = appContext;
 	}
 }

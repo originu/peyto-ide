@@ -1,5 +1,7 @@
 package peyto.ide.editors.generation;
 
+import javax.annotation.PostConstruct;
+
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IActionBars;
@@ -28,6 +30,12 @@ public class SourceCodeGenEditorContributor extends MultiPageEditorActionBarCont
 		super();
 		createActions();
 	}
+	
+	@PostConstruct
+	public void startup() {
+		System.out.println();
+	}
+	
 	/**
 	 * Returns the action registed with the given text editor.
 	 * @return IAction or null if editor is null.
