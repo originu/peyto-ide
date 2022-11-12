@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  peyto-ide-postgresql:
+    image: postgres:14.2
+    volumes:
+      - /tmp/volumes/peyto-ide-postgresql/data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 0.0.0.0:5432:5432
