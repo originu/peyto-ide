@@ -1,0 +1,30 @@
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(1, NULL, 1, 'Mybatis', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(2, NULL, 1, 'Spring JPA', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(3, NULL, 1, 'Spring Rest', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(4, NULL, 1, 'SQLAlchemy', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(5, NULL, 1, 'Flask Rest', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(6, NULL, 1, 'React Query', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(7, 1, 2, 'DAO', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(8, 1, 2, 'TEST DAO', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(9, 1, 2, 'Mapper', NULL, 'kevin', NULL, NULL, NULL);
+INSERT INTO public.ide_template_category_list
+(id, parent_id, "depth", "name", description, created_by, created_date, updated_by, updated_date)
+VALUES(10, 1, 2, 'DTO', NULL, 'kevin', NULL, NULL, NULL);
