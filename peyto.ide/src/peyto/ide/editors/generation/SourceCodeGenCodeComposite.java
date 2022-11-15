@@ -1,10 +1,8 @@
 package peyto.ide.editors.generation;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
@@ -15,9 +13,12 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
+import org.springframework.context.support.AbstractApplicationContext;
 
 public class SourceCodeGenCodeComposite extends Composite {
 
+	private AbstractApplicationContext appContext;
+	
 	/**
 	 * Create the composite.
 	 * @param parent
@@ -94,5 +95,9 @@ public class SourceCodeGenCodeComposite extends Composite {
 //        	}
         }
     };
+
+	public void setApplicationContext(AbstractApplicationContext appContext) {
+		this.appContext = appContext;
+	}
 	
 }

@@ -1,6 +1,5 @@
 package peyto.ide.editors.generation;
 
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -16,21 +15,29 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import peyto.ide.core.service.types.SourceGroupType;
 
 public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
+	private AbstractApplicationContext appContext;
+	
 	public SourceCodeGenEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
-
+	
 	protected void createPages() {
-		SourceCodeGenConfigComposite configCompositie = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
-		configCompositie.setJavaMybatisGenEditor(this);
-		int index = addPage(configCompositie );
+		SourceCodeGenConfigComposite configComposite = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
+		configComposite.setApplicationContext(appContext);
+		configComposite.setJavaMybatisGenEditor(this);
+		configComposite.init();
+		int index = addPage(configComposite );
 		setPageText(index, "Configuration");
 		
 		SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+		composite1.setApplicationContext(appContext);
 		index = addPage(composite1 );
 		setPageText(index, "DAO");
 		
@@ -41,21 +48,24 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 //				e.getStatus());
 	}
 	
-	public void updatePages(String type) {
+	public void updatePages(SourceGroupType type) {
 		int pageCount = getPageCount();
 		for (int i = (pageCount -1); i > 0; i--) {
 			removePage(i);
 		}
-		if( type.equals("mybatis") ) {
+		if( type.equals(SourceGroupType.MYBATIS) ) {
 			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			composite1.setApplicationContext(appContext);
 			int index = addPage(composite1 );
 			setPageText(index, "DAO");
-		} else if (type.equals("spring jpa")) {
+		} else if (type.equals(SourceGroupType.SPRING_JPA)) {
 			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			composite1.setApplicationContext(appContext);
 			int index = addPage(composite1 );
 			setPageText(index, "Mapper");
 		} else {
 			SourceCodeGenCodeComposite composite1 = new SourceCodeGenCodeComposite( getContainer(), SWT.NONE);
+			composite1.setApplicationContext(appContext);
 			int index = addPage(composite1 );
 			setPageText(index, "SQL");
 		}
@@ -103,6 +113,8 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 		if (!(editorInput instanceof IFileEditorInput))
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		// DI
+		appContext = getSite().getService(AbstractApplicationContext.class);
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart.

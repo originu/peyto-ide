@@ -3,6 +3,9 @@ package peyto.ide.core.service;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.apache.hc.client5.http.async.methods.SimpleHttpRequest;
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
 import org.apache.hc.client5.http.async.methods.SimpleRequestBuilder;
@@ -16,13 +19,14 @@ import org.apache.hc.core5.io.CloseMode;
 import org.apache.hc.core5.reactor.IOReactorConfig;
 import org.apache.hc.core5.util.Timeout;
 import org.eclipse.swt.widgets.Display;
+import org.springframework.stereotype.Service;;
 
-
-	
+@Service	
 public class HttpService {
 
 	private CloseableHttpAsyncClient client;
-	
+
+	@PostConstruct
 	public void startup() {
 		final IOReactorConfig ioReactorConfig = IOReactorConfig.custom()
 				.setSoTimeout(Timeout.ofSeconds(20))
@@ -35,6 +39,7 @@ public class HttpService {
 		client.start();
 	}
 
+	@PreDestroy
 	public void shutdown() {
         client.close(CloseMode.GRACEFUL);
 	}

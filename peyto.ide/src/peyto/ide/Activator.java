@@ -6,11 +6,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-
-import peyto.ide.core.service.HttpService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 /**
  * The activator class controls the plug-in life cycle
+ * https://www.vogella.com/tutorials/Eclipse4ContextUsage/article.html
  */
 public class Activator extends AbstractUIPlugin {
 
@@ -32,24 +33,19 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		
-		HttpService	service = new HttpService();
-		service.startup();
-		registerService = context.registerService( HttpService.class.getName(), service, new Hashtable<>());
-		
+		AbstractApplicationContext	appContext = new AnnotationConfigApplicationContext(AppConfig.class);
+		registerService = context.registerService( AbstractApplicationContext.class.getName(), appContext, new Hashtable<>());
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		ServiceReference<HttpService> serviceReference = context.getServiceReference(HttpService.class);
-		HttpService service = context.getService( serviceReference);
-		service.shutdown();
-		
-		registerService.unregister();
-		
+		ServiceReference<AbstractApplicationContext> serviceReference = context.getServiceReference(AbstractApplicationContext.class);
+		AbstractApplicationContext appContext = context.getService(serviceReference);
+		appContext.close();
 		context.ungetService(serviceReference);
+		registerService.unregister();
 	}
 
 	/**
