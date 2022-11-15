@@ -5,19 +5,40 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="Creating Media" author="ingimar">
-        <createTable tableName="MEDIA">
-            <column name="UUID" type="varchar(255)" autoIncrement="false">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="DTYPE" type="varchar(31)"/>
-            <column name="FILENAME" type="varchar(255)">
-                <!--<constraints nullable="false"/>-->
-            </column>
-            <column name="MIME_TYPE" type="varchar(50)"/>
-            <column name="OWNER" type="varchar(255)"/>
-            <column name="VISIBILITY" type="varchar(50)"/>
+	<!-- https://dba-presents.com/liquibase/216-liquibase-3-6-x-data-types-mapping-table -->
+
+    <changeSet id="create template list" author="kevin">
+        <createTable tableName="ide_template_list">
+        	<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="category_id" type="bigint"/>
+            <column name="content" type="clob"/>
+            <column name="version" type="int"/>
+            <column name="is_default" type="tinyint"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="create template category list" author="kevin">
+        <createTable tableName="ide_template_category_list">
+        	<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="parent_id" type="bigint"/>
+            <column name="depth" type="int"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+    </changeSet>
+    
+    
 
 </databaseChangeLog>

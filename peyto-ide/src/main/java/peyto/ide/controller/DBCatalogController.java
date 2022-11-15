@@ -17,30 +17,29 @@ import peyto.ide.dto.DBSchemaDto;
 import peyto.ide.dto.DBTableDto;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/db")
 public class DBCatalogController {
 
 	@Autowired
 	private DBCatalogDao dbCatalogDao;
 
-	@GetMapping("/db/catalog/{catalogName}/schema")
+	@GetMapping("/catalog/{catalogName}/schema")
 	public ResponseEntity<ResData<List<DBSchemaDto>>> getSchema(@PathVariable("catalogName") String catalogName) {
 		List<DBSchemaDto> schemas = dbCatalogDao.getSchemas(catalogName);
 		return new ResponseEntity<ResData<List<DBSchemaDto>>>(ResData.success(schemas), HttpStatus.OK);
 	}
 
-	@GetMapping("/db/catalog/{catalogName}/schema/{schemaName}")
+	@GetMapping("/catalog/{catalogName}/schema/{schemaName}")
 	public ResponseEntity<ResData<List<DBTableDto>>> getTables(@PathVariable("catalogName") String catalogName,
 			@PathVariable("schemaName") String schemaName) {
 		List<DBTableDto> tables = dbCatalogDao.getTables(catalogName, schemaName);
 		return new ResponseEntity<ResData<List<DBTableDto>>>(ResData.success(tables), HttpStatus.OK);
 	}
 
-	@GetMapping("/db/catalog/{catalogName}/schema/{schemaName}/table/{tableName}")
+	@GetMapping("/catalog/{catalogName}/schema/{schemaName}/table/{tableName}")
 	public ResponseEntity<ResData<List<DBColumnDto>>> getColumns(@PathVariable("catalogName") String catalogName,
 			@PathVariable("schemaName") String schemaName, @PathVariable("tableName") String tableName) {
 		List<DBColumnDto> columns = dbCatalogDao.getColumns(catalogName, schemaName, tableName);
 		return new ResponseEntity<ResData<List<DBColumnDto>>>(ResData.success(columns), HttpStatus.OK);
 	}
-
 }
