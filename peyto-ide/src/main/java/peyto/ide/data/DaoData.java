@@ -1,8 +1,8 @@
-package peyto.ide.dto;
+package peyto.ide.data;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class DaoInfo {
+public class DaoData {
 
 	private String packageName;
 	private String className;

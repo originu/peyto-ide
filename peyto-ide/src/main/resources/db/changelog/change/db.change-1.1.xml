@@ -43,6 +43,7 @@
 				<constraints primaryKey="true" />
 			</column>
             <column name="message_id" type="bigint"/>
+            <column name="message_field_order" type="int"/>
             <column name="message_field_name" type="varchar(255)"/>
             <column name="message_field_description" type="varchar(255)"/>
             <column name="message_field_data_type" type="varchar(255)"/>

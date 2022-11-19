@@ -4,12 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.ToIntBiFunction;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +14,8 @@ import freemarker.template.TemplateException;
 import peyto.ide.dao.api.DBCatalogDao;
 import peyto.ide.dto.DBColumnDto;
 import peyto.ide.dto.DBTableDto;
-import peyto.ide.dto.DaoInfo;
-import peyto.ide.dto.DtoInfo;
+import peyto.ide.data.DaoData;
+import peyto.ide.data.DtoData;
 
 @Service
 public class DaoGenerationService {
@@ -29,12 +26,12 @@ public class DaoGenerationService {
 	@Autowired
 	private DBCatalogDao dbCatalogDao;
 	
-	public byte[] generateDao(DaoInfo daoInfo) {
+	public byte[] generateDao(DaoData daoData) {
 		HashMap<String,Object> dataModel = new HashMap<String,Object>();
-		dataModel.put("packageName", daoInfo.getPackageName());
-		dataModel.put("className", daoInfo.getClassName());
-		dataModel.put("returnType", daoInfo.getReturnType());
-		dataModel.put("selectId", daoInfo.getSelectId());
+		dataModel.put("packageName", daoData.getPackageName());
+		dataModel.put("className", daoData.getClassName());
+		dataModel.put("returnType", daoData.getReturnType());
+		dataModel.put("selectId", daoData.getSelectId());
 		try {
 			ByteArrayOutputStream	bos = new ByteArrayOutputStream();
 			Writer out = new OutputStreamWriter(bos);
@@ -48,12 +45,12 @@ public class DaoGenerationService {
 		return null;
 	}
 	
-	public byte[] generateDaoTest(DaoInfo daoInfo) {
+	public byte[] generateDaoTest(DaoData daoData) {
 		HashMap<String,Object> dataModel = new HashMap<String,Object>();
-		dataModel.put("packageName", daoInfo.getPackageName());
-		dataModel.put("className", daoInfo.getClassName());
-		dataModel.put("returnType", daoInfo.getReturnType());
-		dataModel.put("selectId", daoInfo.getSelectId());
+		dataModel.put("packageName", daoData.getPackageName());
+		dataModel.put("className", daoData.getClassName());
+		dataModel.put("returnType", daoData.getReturnType());
+		dataModel.put("selectId", daoData.getSelectId());
 		try {
 			ByteArrayOutputStream	bos = new ByteArrayOutputStream();
 			Writer out = new OutputStreamWriter(bos);
@@ -67,19 +64,19 @@ public class DaoGenerationService {
 		return null;
 	}
 
-	public byte[] generateDto(DtoInfo dtoInfo) {
-		DBTableDto table = dbCatalogDao.getTable(dtoInfo.getTableCatalog(), 
-				dtoInfo.getTableSchema(), 
-				dtoInfo.getTableName());
+	public byte[] generateDto(DtoData dtoData) {
+		DBTableDto table = dbCatalogDao.getTable(dtoData.getTableCatalog(),
+				dtoData.getTableSchema(),
+				dtoData.getTableName());
 
 		List<DBColumnDto> columns = dbCatalogDao.getColumns(
-				dtoInfo.getTableCatalog(), 
-				dtoInfo.getTableSchema(), 
-				dtoInfo.getTableName()
+				dtoData.getTableCatalog(),
+				dtoData.getTableSchema(),
+				dtoData.getTableName()
 				);
 	
 		HashMap<String,Object> dataModel = new HashMap<String,Object>();
-		dataModel.put("packageName", dtoInfo.getPackageName());
+		dataModel.put("packageName", dtoData.getPackageName());
 		dataModel.put("className", table.getLogicalTableName());
 		dataModel.put("tableColumns", columns);
 

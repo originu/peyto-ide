@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import peyto.ide.dto.TableInfo;
+import peyto.ide.data.TableData;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -40,7 +40,7 @@ class SqlGenerationServiceTest {
 
 	@Test
 	void test() throws Exception {
-		TableInfo tableInfo = new TableInfo();
+		TableData tableInfo = new TableData();
 		tableInfo.setTableCatalog("postgres");
 		tableInfo.setTableSchema("information_schema");
 		tableInfo.setTableName("tables");

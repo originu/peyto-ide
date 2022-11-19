@@ -1,8 +1,8 @@
-package peyto.ide.dto;
+package peyto.ide.data;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class DtoInfo {
+public class DtoData {
 
 	private String tableCatalog;
 	private String tableSchema;

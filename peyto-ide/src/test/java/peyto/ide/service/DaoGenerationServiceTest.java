@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import peyto.ide.dto.DaoInfo;
-import peyto.ide.dto.DtoInfo;
-import peyto.ide.dto.TableInfo;
+import peyto.ide.data.DaoData;
+import peyto.ide.data.DtoData;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -19,7 +18,7 @@ class DaoGenerationServiceTest {
 	@Test
 	void testGenerateDao() throws Exception {
 		
-		DaoInfo daoInfo = new DaoInfo();
+		DaoData daoInfo = new DaoData();
 		daoInfo.setPackageName("peyto.ide.dao.api");
 		daoInfo.setClassName("SampleDao");
 		daoInfo.setSelectId("getItems");
@@ -32,7 +31,7 @@ class DaoGenerationServiceTest {
 	@Test
 	void testGenerateDaoTest() throws Exception {
 		
-		DaoInfo daoInfo = new DaoInfo();
+		DaoData daoInfo = new DaoData();
 		daoInfo.setPackageName("peyto.ide.dao.api");
 		daoInfo.setClassName("SampleDao");
 		daoInfo.setSelectId("getItems");
@@ -44,7 +43,7 @@ class DaoGenerationServiceTest {
 
 	@Test
 	void testGenerateDto() throws Exception {
-		DtoInfo dtoInfo = new DtoInfo();
+		DtoData dtoInfo = new DtoData();
 //		dtoInfo.setPackageName("peyto.ide.dao.api");
 //		dtoInfo.setClassName("SampleDao");
 //		dtoInfo.setSelectId("getItems");

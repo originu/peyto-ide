@@ -17,7 +17,7 @@ import freemarker.template.TemplateException;
 import peyto.ide.dao.api.DBCatalogDao;
 import peyto.ide.dto.DBColumnDto;
 import peyto.ide.dto.DBTableDto;
-import peyto.ide.dto.TableInfo;
+import peyto.ide.data.TableData;
 
 @Service
 public class SqlGenerationService {
@@ -28,16 +28,16 @@ public class SqlGenerationService {
 	@Autowired
 	private FreemarkerTemplateService templateService;
 	
-	public byte[] generateByTableName(TableInfo tableInfo) {
-		DBTableDto table = dbCatalogDao.getTable(tableInfo.getTableCatalog(), 
-				tableInfo.getTableSchema(), 
-				tableInfo.getTableName());
+	public byte[] generateByTableName(TableData tableData) {
+		DBTableDto table = dbCatalogDao.getTable(tableData.getTableCatalog(),
+				tableData.getTableSchema(),
+				tableData.getTableName());
 
 		
 		List<DBColumnDto> columns = dbCatalogDao.getColumns(
-				tableInfo.getTableCatalog(), 
-				tableInfo.getTableSchema(), 
-				tableInfo.getTableName()
+				tableData.getTableCatalog(),
+				tableData.getTableSchema(),
+				tableData.getTableName()
 				);
 		
 		ToIntBiFunction<String, String> function = String::compareTo;
@@ -53,9 +53,9 @@ public class SqlGenerationService {
 		});
 
 		HashMap<String,Object> dataModel = new HashMap<String,Object>();
-		dataModel.put("namespace", tableInfo.getNamespace());
-		dataModel.put("selectId", tableInfo.getSelectId());
-		dataModel.put("selectResultType", tableInfo.getSelectResultType());
+		dataModel.put("namespace", tableData.getNamespace());
+		dataModel.put("selectId", tableData.getSelectId());
+		dataModel.put("selectResultType", tableData.getSelectResultType());
 		dataModel.put("tableName", table.getTableName());
 		dataModel.put("tableColumns", columns);
 

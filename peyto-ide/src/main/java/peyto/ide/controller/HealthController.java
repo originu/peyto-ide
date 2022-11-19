@@ -18,18 +18,10 @@ public class HealthController {
 	@Autowired
 	private DBInfoDao dbInfoDao;
 
-	@GetMapping("/health")
-	public ResponseEntity<ResData<ObjectNode>> getHealth() {
-		ObjectNode jsonNodes = JsonNodeFactory.instance.objectNode();
-		jsonNodes.put("version", "0.1.0");
-		return new ResponseEntity<>(ResData.success(jsonNodes), HttpStatus.OK);
-	}
-
 	@GetMapping("/health/db")
 	public ResponseEntity<ResData<ObjectNode>> getDBHealth() {
 		ObjectNode jsonNodes = JsonNodeFactory.instance.objectNode();
 		jsonNodes.put("version", dbInfoDao.getVersion());
 		return new ResponseEntity<>(ResData.success(jsonNodes), HttpStatus.OK);
 	}
-
 }

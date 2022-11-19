@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import peyto.ide.dao.api.TemplateCategoryDao;
 import peyto.ide.data.ResData;
-import peyto.ide.dto.IDInfo;
+import peyto.ide.data.IDData;
 import peyto.ide.dto.TemplateCategoryDto;
 
 @Controller
@@ -29,9 +29,9 @@ public class TemplateCategoryController {
 	private TemplateCategoryDao dao;
 	
 	@PostMapping("/level1")
-	public ResponseEntity<ResData<IDInfo>> addLevel1(@RequestBody String mm) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> addLevel1(@RequestBody String mm) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 	
 	@GetMapping("/level1")
@@ -41,23 +41,23 @@ public class TemplateCategoryController {
 	}
 
 	@PutMapping("/level1/{level1Id}")
-	public ResponseEntity<ResData<IDInfo>> updateLevel1(@PathVariable("levelId1") int levelId1) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> updateLevel1(@PathVariable("levelId1") int levelId1) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/level1/{level1Id}")
-	public ResponseEntity<ResData<IDInfo>> removeLevel1(@PathVariable("levelId1") int levelId1) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> removeLevel1(@PathVariable("levelId1") int levelId1) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 	
 	// 
 
 	@PostMapping("/level1/{level1Id}/level2")
-	public ResponseEntity<ResData<IDInfo>> addLevel2(@RequestBody ObjectNode req) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> addLevel2(@RequestBody ObjectNode req) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 	
 	@GetMapping("/level1/{level1Id}/level2")
@@ -67,15 +67,15 @@ public class TemplateCategoryController {
 	}
 
 	@PutMapping("/level1/{level1Id}/level2/{level2Id}")
-	public ResponseEntity<ResData<IDInfo>> updateLevel2(@PathVariable("levelId1") int levelId1, @PathVariable("level2Id") int levelId2) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> updateLevel2(@PathVariable("levelId1") int levelId1, @PathVariable("level2Id") int levelId2) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/level1/{level1Id}/level2/{level2Id}")
-	public ResponseEntity<ResData<IDInfo>> removeLevel2(@PathVariable("levelId1") int levelId1, @PathVariable("level2Id") int levelId2) {
-		IDInfo dto = new IDInfo();
-		return new ResponseEntity<ResData<IDInfo>>(ResData.success(dto), HttpStatus.OK);
+	public ResponseEntity<ResData<IDData>> removeLevel2(@PathVariable("levelId1") int levelId1, @PathVariable("level2Id") int levelId2) {
+		IDData idData = new IDData();
+		return new ResponseEntity<ResData<IDData>>(ResData.success(idData), HttpStatus.OK);
 	}
 
 }
