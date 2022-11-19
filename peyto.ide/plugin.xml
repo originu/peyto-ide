@@ -59,6 +59,22 @@
             id="peyto.ide.editors.generation.SourceCodeGenEditor"
             name="Peyto Generation">
       </editor>
+      <editor
+            class="peyto.ide.editors.message.MessageBuilderEditor"
+            contributorClass="peyto.ide.editors.message.MessageBuilderEditorContributor"
+            extensions="p02"
+            icon="icons/sample.png"
+            id="peyto.ide.editors.message.MessageBuilderEditor"
+            name="Peyto Message">
+      </editor>
+      <editor
+            class="peyto.ide.editors.message.MessageFieldEditor"
+            contributorClass="peyto.ide.editors.message.MessageFieldEditorContributor"
+            extensions="p03"
+            icon="icons/sample.png"
+            id="peyto.ide.editors.message.MessageFieldEditor"
+            name="Peyto Field">
+      </editor>
    </extension>
 
 </plugin>
