@@ -36,6 +36,7 @@ public class MessageFieldEditorContributor extends MultiPageEditorActionBarContr
 		System.out.println();
 	}
 	
+	
 	/**
 	 * Returns the action registed with the given text editor.
 	 * @return IAction or null if editor is null.

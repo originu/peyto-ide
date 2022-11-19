@@ -10,15 +10,27 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.springframework.context.support.AbstractApplicationContext;
 
+/**
+ * 
+ * D:\dev\eclipse\runtime-EclipseApplication\.metadata\.plugins\org.eclipse.e4.workbench\workbench.xmi
+ * 
+ * 
+ * How to Eclipse e4 – Creating a new part dynamically
+ * http://blog.vogella.com/2010/12/07/eclipse-e4-create-a-new-part-dynamically/
+ * 
+ * @author origi
+ *
+ */
 public class MessageFieldEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
+	public static final String ID = MessageFieldEditor.class.getName();
+	
 	private AbstractApplicationContext appContext;
 	
 	public MessageFieldEditor() {
@@ -84,10 +96,13 @@ public class MessageFieldEditor extends MultiPageEditorPart implements IResource
 	 */
 	public void init(IEditorSite site, IEditorInput editorInput)
 		throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput))
+		if (!(editorInput instanceof MessageFieldEditorInput))
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		super.init(site, editorInput);
+		
 		// DI
+		MessageFieldEditorInput _editorInput = (MessageFieldEditorInput)editorInput; 
+		setPartName(_editorInput.getName());
 		appContext = getSite().getService(AbstractApplicationContext.class);
 	}
 	/* (non-Javadoc)

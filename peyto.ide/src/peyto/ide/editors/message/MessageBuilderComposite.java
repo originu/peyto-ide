@@ -9,7 +9,10 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -23,9 +26,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -138,6 +145,9 @@ public class MessageBuilderComposite extends Composite {
 		tableViewer.setContentProvider( new ArrayContentProvider() );
 		table = tableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1));
+		table.setLinesVisible(true);
+		table.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );
+		table.setHeaderVisible( true );
 		
 		TableViewerColumn messageIdColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		messageIdColumn.getColumn().setWidth(160);
@@ -192,6 +202,25 @@ public class MessageBuilderComposite extends Composite {
 				} else {
 					return dto.getCreatedDate().toString();
 				}
+			}
+		});
+		tableViewer.addDoubleClickListener( new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				IStructuredSelection	selection	= (IStructuredSelection)event.getSelection();
+				MessageDto dto = (MessageDto)selection.getFirstElement();
+		        try {
+					MessageFieldEditorInput editorInput = new MessageFieldEditorInput(dto);
+					IEditorPart openEditor = PlatformUI
+							.getWorkbench()
+							.getActiveWorkbenchWindow()
+							.getActivePage()
+							.openEditor(editorInput, MessageFieldEditor.ID);
+		        	
+		        	System.out.println(openEditor);
+		        } catch (PartInitException e) {
+		            e.printStackTrace();
+		        }
 			}
 		});
 
