@@ -12,7 +12,7 @@ public class MessageFieldEditorInput implements IEditorInput {
 	private MessageDto data;
 	
 	public MessageFieldEditorInput(MessageDto data) {
-		this.data = data;
+		this.setData(data);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class MessageFieldEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		return data.getMessageName();
+		return getData().getMessageName();
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class MessageFieldEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return data.getMessageDescription();
+		return getData().getMessageDescription();
 	}
 	
 	@Override
@@ -58,6 +58,14 @@ public class MessageFieldEditorInput implements IEditorInput {
 			return false;
 		MessageFieldEditorInput selectedObj = (MessageFieldEditorInput) obj;
 		return selectedObj.getName().equals(this.getName());
+	}
+
+	public MessageDto getData() {
+		return data;
+	}
+
+	public void setData(MessageDto data) {
+		this.data = data;
 	}
 
 }

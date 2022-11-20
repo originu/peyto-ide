@@ -43,7 +43,7 @@ public class DBColumnListUI extends Composite {
 		setLayout(new GridLayout(1, false));
 		new Label(this, SWT.NONE);
 		
-		tableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );

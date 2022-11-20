@@ -39,14 +39,20 @@ public class MessageFieldEditor extends MultiPageEditorPart implements IResource
 	}
 	
 	protected void createPages() {
+		MessageFieldEditorInput _editorInput = (MessageFieldEditorInput)getEditorInput();
+		
 		int index = 0;
 		MessageFieldComposite requestMessageFieldBuilderComposite = new MessageFieldComposite( getContainer(), SWT.NONE);
 		requestMessageFieldBuilderComposite.setApplicationContext(appContext);
+		requestMessageFieldBuilderComposite.setEditorInput(_editorInput);
+		requestMessageFieldBuilderComposite.init();
 		index = addPage(requestMessageFieldBuilderComposite );
 		setPageText(index, "Request");
 
 		MessageFieldComposite responseMessageFieldBuilderComposite = new MessageFieldComposite( getContainer(), SWT.NONE);
 		responseMessageFieldBuilderComposite.setApplicationContext(appContext);
+		requestMessageFieldBuilderComposite.setEditorInput(_editorInput);
+		requestMessageFieldBuilderComposite.init();
 		index = addPage(responseMessageFieldBuilderComposite );
 		setPageText(index, "Response");
 		
