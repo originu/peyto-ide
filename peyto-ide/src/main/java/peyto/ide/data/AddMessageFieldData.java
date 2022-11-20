@@ -6,6 +6,7 @@ public class AddMessageFieldData {
 
     private long messageId;
     private int messageFieldOrder;
+    private int messageFieldDepth;
     private String messageFieldName;
     private String messageFieldDescription;
     private String messageFieldDataType;
@@ -27,6 +28,14 @@ public class AddMessageFieldData {
         this.messageFieldOrder = messageFieldOrder;
     }
 
+	public int getMessageFieldDepth() {
+		return messageFieldDepth;
+	}
+
+	public void setMessageFieldDepth(int messageFieldDepth) {
+		this.messageFieldDepth = messageFieldDepth;
+	}
+	
     public String getMessageFieldName() {
         return messageFieldName;
     }

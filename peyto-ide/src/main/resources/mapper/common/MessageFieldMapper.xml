@@ -7,13 +7,14 @@
 
 	<insert id="add">
 		INSERT INTO ide_message_field
-		(message_id, message_field_order, message_field_name, message_field_description, message_field_data_type,
+		(message_id, message_field_order, message_field_depth, message_field_name, message_field_description, message_field_data_type,
 		message_field_length, created_by, created_date, updated_by, updated_date)
 		VALUES
 		<foreach collection="list" item="item" separator=" , ">
 			(
 			#{item.messageId}
 			, #{item.messageFieldOrder}
+			, #{item.messageFieldDepth}
 			, #{item.messageFieldName}
 			, #{item.messageFieldDescription}
 			, #{item.messageFieldDataType}
@@ -30,6 +31,7 @@
 		SELECT message_field_id
 			 , message_id
 			 , message_field_order
+			 , message_field_depth
 			 , message_field_name
 			 , message_field_description
 			 , message_field_data_type
