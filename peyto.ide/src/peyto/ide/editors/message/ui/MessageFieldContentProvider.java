@@ -7,24 +7,28 @@ import peyto.ide.core.data.MessageFieldData;
 public class MessageFieldContentProvider implements ITreeContentProvider {
 
 	@Override
-	public Object[] getChildren(Object parentElement) {
-		MessageFieldElement<MessageFieldData> elem = (MessageFieldElement<MessageFieldData>)parentElement;
-		return getElements(elem);
+	public Object[] getChildren(Object element) {
+		return getElements(element);
 	}
 
 	@Override
-	public Object[] getElements(Object arg0) {
-		return null;
+	public Object[] getElements(Object element) {
+		return ((MessageFieldTreeElement<MessageFieldData>) element).getChildren().toArray();
 	}
 
 	@Override
-	public Object getParent(Object arg0) {
-		return null;
+	public Object getParent(Object element) {
+		if (element == null ) {
+			return element;
+		} else {
+			MessageFieldTreeElement<MessageFieldData> elem = (MessageFieldTreeElement<MessageFieldData>)element;
+			return elem.getParent();
+		}
 	}
 
 	@Override
-	public boolean hasChildren(Object arg0) {
-		return false;
+	public boolean hasChildren(Object element) {
+		return ((MessageFieldTreeElement<MessageFieldData>) element).getChildren().size() > 0;
 	}
 
 }
