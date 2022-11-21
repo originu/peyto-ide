@@ -2,18 +2,20 @@ package peyto.ide.editors.message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.springframework.context.support.AbstractApplicationContext;
 
@@ -46,7 +48,18 @@ public class MessageFieldComposite extends Composite {
 	public MessageFieldComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
-		new Label(this, SWT.NONE);
+		
+		Button btnNewButton = new Button(this, SWT.NONE);
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MessageFieldTreeElement<MessageFieldDto> rootElem = (MessageFieldTreeElement<MessageFieldDto>) treeViewer.getInput();
+				updateOrderAndDepth(rootElem, new AtomicInteger(0), 0);
+				List<MessageFieldDto> items = toListOfMessageFieldDto(rootElem);
+				// save it to DB via rest
+			}
+		});
+		btnNewButton.setText("test");
 		
 		treeViewer = new TreeViewer(this, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		treeViewer.setContentProvider(new MessageFieldContentProvider());
@@ -173,7 +186,6 @@ public class MessageFieldComposite extends Composite {
 	
 	public MessageFieldTreeElement<MessageFieldDto> toTreeData(List<MessageFieldDto> items) {
 		MessageFieldTreeElement<MessageFieldDto> rootElem = new MessageFieldTreeElement<>();
-
 		// list => tree
 		MessageFieldTreeElement<MessageFieldDto> currElement = rootElem;
 		int prevMessageFieldDepth = 1;
@@ -207,4 +219,53 @@ public class MessageFieldComposite extends Composite {
 		}
 		return currElement;
 	}
+	
+	private List<MessageFieldDto> toListOfMessageFieldDto(MessageFieldTreeElement<MessageFieldDto> rootElement) {
+		ArrayList<MessageFieldDto> items = new ArrayList<>();
+		addTreeToListRecursively(items, rootElement);
+		return items;
+	}
+	
+	private void addTreeToListRecursively(ArrayList<MessageFieldDto> items, MessageFieldTreeElement<MessageFieldDto> element) {
+		if (element.getElement() == null) {
+			// this element is root
+			for (MessageFieldTreeElement<MessageFieldDto> _elem : element.getChildren()) {
+				addTreeToListRecursively(items, _elem);
+			}
+		} else {
+			// this element is not root but has own element and may have children
+			items.add(element.getElement());
+			if (element.getChildren().size() > 0) {
+				for (MessageFieldTreeElement<MessageFieldDto> _elem : element.getChildren()) {
+					addTreeToListRecursively(items, _elem);
+				}
+			} else {
+				// this case is no children which is termination condition
+				return;
+			}
+		}
+	}
+	
+	public void updateOrderAndDepth(MessageFieldTreeElement<MessageFieldDto> element, AtomicInteger order, int depth) {
+		if (element.getElement() == null) {
+			// this element is root
+			for (MessageFieldTreeElement<MessageFieldDto> _elem : element.getChildren()) {
+				updateOrderAndDepth(_elem, order, depth);
+			}
+		} else {
+			// this element is not root but has own element and may have children
+			order.addAndGet(1);
+			element.getElement().setMessageFieldOrder(order.get());
+			element.getElement().setMessageFieldDepth(++depth);
+			if (element.getChildren().size() > 0) {
+				for (MessageFieldTreeElement<MessageFieldDto> _elem : element.getChildren()) {
+					updateOrderAndDepth(_elem, order, depth);
+				}
+			} else {
+				// this case is no children which is termination condition
+				return;
+			}
+		}
+	}
+	
 }
