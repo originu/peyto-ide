@@ -13,7 +13,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import peyto.ide.core.service.HttpService;
 import peyto.ide.views.erd.DBColumnListUI;
 import peyto.ide.views.erd.DBTableListUI;
 
@@ -44,14 +43,11 @@ public class DBErdView extends ViewPart {
 	@Inject
 	private AbstractApplicationContext appContext;
 	
-	private HttpService httpService;
-	
 	public DBErdView() {
 	}
 	
 	@PostConstruct
 	public void startup() {
-		httpService = appContext.getBean(HttpService.class);
 	}
 	
 	/**
@@ -69,13 +65,17 @@ public class DBErdView extends ViewPart {
 		toolkit.paintBordersFor(sashForm);
 		
 		DBTableListUI dbTableListUIComposite = new DBTableListUI(sashForm, SWT.NONE);
-		dbTableListUIComposite.setHttpService(httpService);
+		dbTableListUIComposite.setApplicationContext(appContext);
+		dbTableListUIComposite.init();
 		toolkit.adapt(dbTableListUIComposite);
 		toolkit.paintBordersFor(dbTableListUIComposite);
 		
 		DBColumnListUI dbColumnListUIComposite = new DBColumnListUI(sashForm, SWT.NONE);
-		dbColumnListUIComposite.setHttpService(httpService);
+		dbColumnListUIComposite.setApplicationContext(appContext);
+		dbColumnListUIComposite.init();
+
 		dbTableListUIComposite.setDBColumnListUI(dbColumnListUIComposite);
+		
 		toolkit.adapt(dbColumnListUIComposite);
 		toolkit.paintBordersFor(dbColumnListUIComposite);
 		sashForm.setWeights(new int[] {332, 659});

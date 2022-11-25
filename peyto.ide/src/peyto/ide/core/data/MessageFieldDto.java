@@ -1,12 +1,18 @@
 package peyto.ide.core.data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class MessageFieldDto {
+public class MessageFieldDto implements Serializable {
 
-    private long messageFieldId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1744966632167407418L;
+	
+	private long messageFieldId;
     private long messageId;
     private int messageFieldOrder;
     private int messageFieldDepth;

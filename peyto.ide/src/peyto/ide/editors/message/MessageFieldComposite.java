@@ -9,6 +9,9 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -27,8 +30,13 @@ import peyto.ide.core.data.ResData;
 import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
+import peyto.ide.editors.message.dnd.DragSourceListenerImpl;
+import peyto.ide.editors.message.dnd.DropTargetDropListener;
+import peyto.ide.editors.message.dnd.DropTargetListenerImpl;
+import peyto.ide.editors.message.dnd.MessageFieldDtoDragAndDropTransfer;
 import peyto.ide.editors.message.ui.MessageFieldContentProvider;
 import peyto.ide.editors.message.ui.MessageFieldTreeElement;
+import peyto.ide.views.dnd.DBColumnDtoDragAndDropTransfer;
 
 public class MessageFieldComposite extends Composite {
 
@@ -57,6 +65,7 @@ public class MessageFieldComposite extends Composite {
 				updateOrderAndDepth(rootElem, new AtomicInteger(0), 0);
 				List<MessageFieldDto> items = toListOfMessageFieldDto(rootElem);
 				// save it to DB via rest
+				treeViewer.refresh();
 			}
 		});
 		btnNewButton.setText("test");
@@ -68,7 +77,8 @@ public class MessageFieldComposite extends Composite {
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 		tree.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );
-
+		
+		// add columns of table
 		TreeViewerColumn messageFieldNameColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
 		messageFieldNameColumn.getColumn().setWidth(160);
 		messageFieldNameColumn.getColumn().setResizable(true);
@@ -141,6 +151,28 @@ public class MessageFieldComposite extends Composite {
 //			column.setLabelProvider(treeViewerColumn.getLabelProvider());
 //			column.setEditingSupport(treeViewerColumn.getEditingSupport());
 //		}
+
+		DropTargetListenerImpl dropTargetListenerImpl = new DropTargetListenerImpl( treeViewer, new DropTargetDropListener() {
+			@Override
+			public void drop(DropTargetEvent event) {
+//				ioItemEditor.setDirty( true );	
+			}
+		});
+		
+		// add drag and drop
+		DragSourceListenerImpl dragSourceListenerImpl = new DragSourceListenerImpl( treeViewer );
+		treeViewer.addDragSupport( 
+				DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK, 
+				new Transfer[] { MessageFieldDtoDragAndDropTransfer.getInstance() }, 
+				dragSourceListenerImpl
+				);
+		
+		treeViewer.addDropSupport(
+				DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK,
+				new Transfer[] { MessageFieldDtoDragAndDropTransfer.getInstance() }, 
+//				new Transfer[] { DBColumnDtoDragAndDropTransfer.getInstance() }, 
+				dropTargetListenerImpl
+				);
 	}
 	
 	
@@ -173,6 +205,7 @@ public class MessageFieldComposite extends Composite {
 					ResData<List<MessageFieldDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<MessageFieldDto>>>() {});
 					MessageFieldTreeElement<MessageFieldDto> rootElem = toTreeData( data.getBody());
 					treeViewer.setInput(rootElem);
+					treeViewer.expandAll();
 //					data.getBody().stream().forEach( item -> {
 //						System.out.println( item );
 //					});
@@ -195,16 +228,17 @@ public class MessageFieldComposite extends Composite {
 				// add one in sub
 				ArrayList<MessageFieldTreeElement<MessageFieldDto>> children = currElement.getChildren();
 				MessageFieldTreeElement<MessageFieldDto> lastMessageFieldTreeElement = children.get(children.size() - 1);	// last one
-				lastMessageFieldTreeElement.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(item) );
+				lastMessageFieldTreeElement.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(lastMessageFieldTreeElement, item) );
 				currElement = lastMessageFieldTreeElement;
 				prevMessageFieldDepth = messageFieldDepth;
 			} else if( prevMessageFieldDepth > messageFieldDepth ) {
+				// add one to above
 				MessageFieldTreeElement<MessageFieldDto> searchedElementByDepth = findElement( rootElem, messageFieldDepth);
-				searchedElementByDepth.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(item));
+				searchedElementByDepth.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(searchedElementByDepth, item));
 				currElement = searchedElementByDepth;
 				prevMessageFieldDepth = messageFieldDepth;
 			} else {
-				currElement.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(item));
+				currElement.getChildren().add(new MessageFieldTreeElement<MessageFieldDto>(currElement, item));
 			}
 		}
 		return rootElem;
@@ -266,6 +300,11 @@ public class MessageFieldComposite extends Composite {
 				return;
 			}
 		}
+	}
+	
+	public void refreshTableViewer() {
+		treeViewer.refresh();
+		treeViewer.expandAll();
 	}
 	
 }

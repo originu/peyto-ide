@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -44,6 +45,7 @@ public class DBTableListUI extends Composite {
 	private Table table;
 	private TableViewer tableViewer;
 
+	private ApplicationContext applicationContext;
 	
 	private HttpService httpService;
 	private DBColumnListUI dbColumnListUI;
@@ -199,20 +201,24 @@ public class DBTableListUI extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void setHttpService(HttpService httpService) {
-		this.httpService = httpService;
-	}
-	
-	public HttpService getHttpService() {
-		return this.httpService;
-	}
-
 	public void setDBColumnListUI(DBColumnListUI dbColumnListUI) {
 		this.dbColumnListUI = dbColumnListUI;
 	}
 	
 	public DBColumnListUI getDBColumnListUI() {
 		return dbColumnListUI;
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+
+	public void init() {
+		this.httpService = this.applicationContext.getBean(HttpService.class);		
 	}
 	
 }

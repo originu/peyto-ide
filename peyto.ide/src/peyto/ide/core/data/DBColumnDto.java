@@ -1,9 +1,16 @@
 package peyto.ide.core.data;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class DBColumnDto {
+public class DBColumnDto implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7794218674579393781L;
+	
 	private String tableCatalog;
 	private String tableSchema;
 	private String tableName;

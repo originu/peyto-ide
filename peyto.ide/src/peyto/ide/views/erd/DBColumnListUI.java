@@ -8,6 +8,8 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
@@ -16,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.springframework.context.ApplicationContext;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -25,12 +28,15 @@ import peyto.ide.core.data.ResData;
 import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
+import peyto.ide.views.dnd.DBColumnDtoDragSourceListener;
+import peyto.ide.views.dnd.DBColumnDtoDragAndDropTransfer;
 
 public class DBColumnListUI extends Composite {
 	
 	private TableViewer tableViewer;
 	private Table table;
 
+	private ApplicationContext applicationContext;
 	private HttpService httpService;
 	
 	/**
@@ -74,6 +80,14 @@ public class DBColumnListUI extends Composite {
 			col.getColumn().setText( column.getText());
 			col.setLabelProvider(column.getColumnLabelProvider());
 		}
+		
+		// drag and drop
+		tableViewer.addDragSupport( 
+				DND.DROP_MOVE | DND.DROP_COPY, 
+				new Transfer[] { DBColumnDtoDragAndDropTransfer.getInstance() }, 
+				new DBColumnDtoDragSourceListener( tableViewer ) {
+			
+		});
 
 	}
 
@@ -97,12 +111,16 @@ public class DBColumnListUI extends Composite {
 		});
 	}
 	
-	public void setHttpService(HttpService httpService) {
-		this.httpService = httpService;
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
 	}
-	
-	public HttpService getHttpService() {
-		return this.httpService;
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+
+	public void init() {
+		this.httpService = this.applicationContext.getBean(HttpService.class);		
 	}
 
 }
