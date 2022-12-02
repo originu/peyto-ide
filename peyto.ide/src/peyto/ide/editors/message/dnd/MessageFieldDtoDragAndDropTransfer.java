@@ -10,6 +10,7 @@ import org.eclipse.swt.dnd.ByteArrayTransfer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.TransferData;
 
+import peyto.ide.core.data.DBColumnDto;
 import peyto.ide.core.data.MessageFieldDto;
 import peyto.ide.editors.message.ui.MessageFieldTreeElement;
 
@@ -47,7 +48,31 @@ public class MessageFieldDtoDragAndDropTransfer extends ByteArrayTransfer {
 			try ( ByteArrayInputStream bais = new ByteArrayInputStream( rawData ) ) {
 				try ( ObjectInputStream ois = new ObjectInputStream( bais ) ) {
 					Object transferedObj = ois.readObject();
-					items = (MessageFieldTreeElement<MessageFieldDto>[]) transferedObj;
+					
+					if( transferedObj instanceof MessageFieldTreeElement[] ) {
+						items = (MessageFieldTreeElement<MessageFieldDto>[]) transferedObj;
+					} else if( transferedObj instanceof DBColumnDto[] ) {
+						DBColumnDto[] dtos = (DBColumnDto[]) transferedObj;
+						items = new MessageFieldTreeElement[dtos.length];
+						for (int i = 0; i < dtos.length; i++) {
+							MessageFieldDto dto = new MessageFieldDto();
+							// dto.setMessageFieldId;
+							// dto.setMessageId;
+							// dto.setMessageFieldOrder;
+							// dto.setMessageFieldDepth;
+							dto.setMessageFieldName(dtos[i].getColumnName());
+							// dto.setMessageFieldDescription();
+							dto.setMessageFieldDataType(dtos[i].getDataType());
+							dto.setMessageFieldLength(dtos[i].getCharacterMaximumLength() != null ? Long.parseLong(dtos[i].getCharacterMaximumLength()) : -1);
+							// dto.setCreatedBy;
+							// dto.setCreatedDate;
+							// dto.setUpdatedBy;
+							// dto.setUpdatedDate;
+							items[i] = new MessageFieldTreeElement<MessageFieldDto>(null, dto);
+						}
+					} else {
+						items = new MessageFieldTreeElement[0]; 
+					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -66,11 +91,36 @@ public class MessageFieldDtoDragAndDropTransfer extends ByteArrayTransfer {
 		if ( !validate( object ) || !isSupportedType( transferData ) ) {
 			DND.error( DND.ERROR_INVALID_DATA );
 		}
-		MessageFieldTreeElement<MessageFieldDto>[] item = (MessageFieldTreeElement<MessageFieldDto>[]) object;
+		
+		MessageFieldTreeElement<MessageFieldDto>[] items = null;
+		if( object instanceof MessageFieldTreeElement[] ) {
+			items = (MessageFieldTreeElement<MessageFieldDto>[]) object;
+		} else if( object instanceof DBColumnDto[] ) {
+			DBColumnDto[] dtos = (DBColumnDto[]) object;
+			items = new MessageFieldTreeElement[dtos.length];
+			for (int i = 0; i < dtos.length; i++) {
+				MessageFieldDto dto = new MessageFieldDto();
+				// dto.setMessageFieldId;
+				// dto.setMessageId;
+				// dto.setMessageFieldOrder;
+				// dto.setMessageFieldDepth;
+				dto.setMessageFieldName(dtos[i].getColumnName());
+				// dto.setMessageFieldDescription();
+				dto.setMessageFieldDataType(dtos[i].getDataType());
+				dto.setMessageFieldLength(dtos[i].getCharacterMaximumLength() != null ? Long.parseLong(dtos[i].getCharacterMaximumLength()) : -1);
+				// dto.setCreatedBy;
+				// dto.setCreatedDate;
+				// dto.setUpdatedBy;
+				// dto.setUpdatedDate;
+				items[i] = new MessageFieldTreeElement<MessageFieldDto>(null, dto);
+			}
+		} else {
+			items = new MessageFieldTreeElement[0];
+		}
 		byte[]	rawData = null;
 		try ( ByteArrayOutputStream baos = new ByteArrayOutputStream() ) {
 			try ( ObjectOutputStream oos = new ObjectOutputStream( baos ) ) {
-				oos.writeObject( item );
+				oos.writeObject( items );
 				rawData	= baos.toByteArray();
 			}
 		} catch (IOException e) {

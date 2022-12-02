@@ -12,6 +12,7 @@ import org.eclipse.swt.dnd.TransferData;
 
 import peyto.ide.core.data.DBColumnDto;
 
+@Deprecated
 public class DBColumnDtoDragAndDropTransfer extends ByteArrayTransfer {
 
 	private static final String TYPE_NAME = DBColumnDtoDragAndDropTransfer.class.getSimpleName();

@@ -36,7 +36,6 @@ import peyto.ide.editors.message.dnd.DropTargetListenerImpl;
 import peyto.ide.editors.message.dnd.MessageFieldDtoDragAndDropTransfer;
 import peyto.ide.editors.message.ui.MessageFieldContentProvider;
 import peyto.ide.editors.message.ui.MessageFieldTreeElement;
-import peyto.ide.views.dnd.DBColumnDtoDragAndDropTransfer;
 
 public class MessageFieldComposite extends Composite {
 
@@ -57,10 +56,13 @@ public class MessageFieldComposite extends Composite {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		
-		Button btnNewButton = new Button(this, SWT.NONE);
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
+		Button btnCheckButton = new Button(this, SWT.CHECK);
+		btnCheckButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				Button btn = (Button) e.getSource();
+	            boolean isChecked = btn.getSelection();
+	            
 				MessageFieldTreeElement<MessageFieldDto> rootElem = (MessageFieldTreeElement<MessageFieldDto>) treeViewer.getInput();
 				updateOrderAndDepth(rootElem, new AtomicInteger(0), 0);
 				List<MessageFieldDto> items = toListOfMessageFieldDto(rootElem);
@@ -68,7 +70,21 @@ public class MessageFieldComposite extends Composite {
 				treeViewer.refresh();
 			}
 		});
-		btnNewButton.setText("test");
+		btnCheckButton.setText("Editable");
+		
+//		Button btnNewButton = new Button(this, SWT.NONE);
+//		btnNewButton.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				MessageFieldTreeElement<MessageFieldDto> rootElem = (MessageFieldTreeElement<MessageFieldDto>) treeViewer.getInput();
+//				updateOrderAndDepth(rootElem, new AtomicInteger(0), 0);
+//				List<MessageFieldDto> items = toListOfMessageFieldDto(rootElem);
+//				// save it to DB via rest
+//				treeViewer.refresh();
+//			}
+//		});
+//		btnNewButton.setText("test");
+
 		
 		treeViewer = new TreeViewer(this, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		treeViewer.setContentProvider(new MessageFieldContentProvider());
@@ -151,7 +167,7 @@ public class MessageFieldComposite extends Composite {
 //			column.setLabelProvider(treeViewerColumn.getLabelProvider());
 //			column.setEditingSupport(treeViewerColumn.getEditingSupport());
 //		}
-
+		
 		DropTargetListenerImpl dropTargetListenerImpl = new DropTargetListenerImpl( treeViewer, new DropTargetDropListener() {
 			@Override
 			public void drop(DropTargetEvent event) {
@@ -159,22 +175,24 @@ public class MessageFieldComposite extends Composite {
 			}
 		});
 		
-		// add drag and drop
+		// from treeviewer of message field to treeviewer of message field 
 		DragSourceListenerImpl dragSourceListenerImpl = new DragSourceListenerImpl( treeViewer );
 		treeViewer.addDragSupport( 
 				DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK, 
 				new Transfer[] { MessageFieldDtoDragAndDropTransfer.getInstance() }, 
 				dragSourceListenerImpl
 				);
-		
+
+		// from treeviewer of message field to treeviewer of message field
+		// from tableviewer of db erd view to treeviewer of message field
 		treeViewer.addDropSupport(
 				DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK,
 				new Transfer[] { MessageFieldDtoDragAndDropTransfer.getInstance() }, 
 //				new Transfer[] { DBColumnDtoDragAndDropTransfer.getInstance() }, 
 				dropTargetListenerImpl
 				);
+
 	}
-	
 	
 	public void setData() {
 //		treeViewer.setInput("");		

@@ -28,8 +28,9 @@ import peyto.ide.core.data.ResData;
 import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
-import peyto.ide.views.dnd.DBColumnDtoDragSourceListener;
+import peyto.ide.editors.message.dnd.MessageFieldDtoDragAndDropTransfer;
 import peyto.ide.views.dnd.DBColumnDtoDragAndDropTransfer;
+import peyto.ide.views.dnd.DBColumnDtoDragSourceListener;
 
 public class DBColumnListUI extends Composite {
 	
@@ -84,7 +85,7 @@ public class DBColumnListUI extends Composite {
 		// drag and drop
 		tableViewer.addDragSupport( 
 				DND.DROP_MOVE | DND.DROP_COPY, 
-				new Transfer[] { DBColumnDtoDragAndDropTransfer.getInstance() }, 
+				new Transfer[] { MessageFieldDtoDragAndDropTransfer.getInstance() }, 
 				new DBColumnDtoDragSourceListener( tableViewer ) {
 			
 		});
