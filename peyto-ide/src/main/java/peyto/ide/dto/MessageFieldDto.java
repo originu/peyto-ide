@@ -1,13 +1,14 @@
 package peyto.ide.dto;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.Date;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class MessageFieldDto {
 
     private long messageFieldId;
     private long messageId;
+    private int messageFieldType;		// 100: Request, 200: Response
     private int messageFieldOrder;
     private int messageFieldDepth;
     private String messageFieldName;
@@ -39,6 +40,14 @@ public class MessageFieldDto {
         return messageFieldOrder;
     }
 
+	public int getMessageFieldType() {
+		return messageFieldType;
+	}
+
+	public void setMessageFieldType(int messageFieldType) {
+		this.messageFieldType = messageFieldType;
+	}
+	
     public void setMessageFieldOrder(int messageFieldOrder) {
         this.messageFieldOrder = messageFieldOrder;
     }

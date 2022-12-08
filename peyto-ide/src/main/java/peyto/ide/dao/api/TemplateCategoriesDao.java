@@ -10,7 +10,7 @@ import peyto.ide.dto.TemplateCategoryDto;
 
 @Mapper
 @Repository
-public interface TemplateCategoryDao {
+public interface TemplateCategoriesDao {
 
 	int addLevel1(TemplateCategoryDto dto);
 	List<TemplateCategoryDto> getListOfLevel1();

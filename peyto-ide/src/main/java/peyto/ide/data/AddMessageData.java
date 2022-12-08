@@ -2,39 +2,47 @@ package peyto.ide.data;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Date;
-
 public class AddMessageData {
-    private long applicationId;
-    private String messageName;
-    private String messageDescription;
 
-    public long getApplicationId() {
-        return applicationId;
-    }
+	private long applicationId;
+	private long messageChannelId;
+	private String messageName;
+	private String messageDescription;
 
-    public void setApplicationId(long applicationId) {
-        this.applicationId = applicationId;
-    }
+	public long getApplicationId() {
+		return applicationId;
+	}
 
-    public String getMessageName() {
-        return messageName;
-    }
+	public void setApplicationId(long applicationId) {
+		this.applicationId = applicationId;
+	}
 
-    public void setMessageName(String messageName) {
-        this.messageName = messageName;
-    }
+	public long getMessageChannelId() {
+		return messageChannelId;
+	}
 
-    public String getMessageDescription() {
-        return messageDescription;
-    }
+	public void setMessageChannelId(long messageChannelId) {
+		this.messageChannelId = messageChannelId;
+	}
 
-    public void setMessageDescription(String messageDescription) {
-        this.messageDescription = messageDescription;
-    }
+	public String getMessageName() {
+		return messageName;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
+	public void setMessageName(String messageName) {
+		this.messageName = messageName;
+	}
+
+	public String getMessageDescription() {
+		return messageDescription;
+	}
+
+	public void setMessageDescription(String messageDescription) {
+		this.messageDescription = messageDescription;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

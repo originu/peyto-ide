@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<!-- https://dba-presents.com/liquibase/216-liquibase-3-6-x-data-types-mapping-table -->
+
+	<changeSet id="add initial data" author="kevin">
+
+		<insert tableName="ide_applications">
+			<column name="application_name" value="sampleapp" />
+			<column name="application_description" value="sample application" />
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_message_channels">
+			<column name="application_id" value="1" />
+			<column name="message_channel_name" value="frontend-backend" />
+			<column name="message_channel_description" value="" />
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_messages">
+			<column name="message_channel_id" value="1" />
+			<column name="message_name" value="getUserInfo" />
+			<column name="message_description" value="get user information" />
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<!-- ****************************************************************** -->
+		
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="100"/>
+            <column name="message_field_order" value="1"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="email"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>
+            <column name="message_field_order" value="1"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="name"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>
+            <column name="message_field_order" value="2"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="email"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="3"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="jobInfo"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="Object"/>
+            <column name="message_field_length" value="0"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="4"/>
+            <column name="message_field_depth" value="2"/>
+            <column name="message_field_name" value="jobName"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="5"/>
+            <column name="message_field_depth" value="2"/>
+            <column name="message_field_name" value="jobLocation"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="6"/>
+            <column name="message_field_depth" value="2"/>
+            <column name="message_field_name" value="jobAddressInfo"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="Object"/>
+            <column name="message_field_length" value="0"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="7"/>
+            <column name="message_field_depth" value="3"/>
+            <column name="message_field_name" value="jobAddressCity"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="8"/>
+            <column name="message_field_depth" value="3"/>
+            <column name="message_field_name" value="jobAddressState"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="9"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="jobNumber"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="String"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_message_fields">
+			<column name="message_id" value="1"/>
+			<column name="message_field_type" value="200"/>			
+            <column name="message_field_order" value="10"/>
+            <column name="message_field_depth" value="1"/>
+            <column name="message_field_name" value="age"/>
+            <column name="message_field_description" value=""/>
+            <column name="message_field_data_type" value="int"/>
+            <column name="message_field_length" value="255"/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<!-- ****************************************************************** -->		
+
+		<insert tableName="ide_languages">
+			<column name="lang_code" value="IDE"/>
+            <column name="lang_name" value="IDE"/>
+            <column name="lang_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_languages">
+			<column name="lang_code" value="JAV"/>
+            <column name="lang_name" value="JAVA"/>
+            <column name="lang_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_languages">
+			<column name="lang_code" value="PYT"/>
+            <column name="lang_name" value="Python"/>
+            <column name="lang_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_languages">
+			<column name="lang_code" value="TYS"/>
+            <column name="lang_name" value="Typescript"/>
+            <column name="lang_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		<insert tableName="ide_languages">
+			<column name="lang_code" value="REA"/>
+            <column name="lang_name" value="React.js"/>
+            <column name="lang_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<!-- ****************************************************************** -->
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_STRING"/>
+            <column name="datatype_name" value="String"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_INTEGER"/>
+            <column name="datatype_name" value="Integer"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_P_INTEGER"/>
+            <column name="datatype_name" value="int"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_DOUBLE"/>
+            <column name="datatype_name" value="Double"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_P_DOUBLE"/>
+            <column name="datatype_name" value="double"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_LONG"/>
+            <column name="datatype_name" value="Long"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_P_LONG"/>
+            <column name="datatype_name" value="long"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_BOOLEAN"/>
+            <column name="datatype_name" value="Boolean"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_P_BOOLEAN"/>
+            <column name="datatype_name" value="bool"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_BIGDECIMAL"/>
+            <column name="datatype_name" value="BigDecimal"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_LIST"/>
+            <column name="datatype_name" value="List"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="IDE"/>
+            <column name="datatype_code" value="IDE_C_OBJECT"/>
+            <column name="datatype_name" value="Object"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_STRING"/>
+            <column name="datatype_name" value="String"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_INTEGER"/>
+            <column name="datatype_name" value="Integer"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_P_INTEGER"/>
+            <column name="datatype_name" value="int"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_DOUBLE"/>
+            <column name="datatype_name" value="Double"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_P_DOUBLE"/>
+            <column name="datatype_name" value="double"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_LONG"/>
+            <column name="datatype_name" value="Long"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_P_LONG"/>
+            <column name="datatype_name" value="long"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_BOOLEAN"/>
+            <column name="datatype_name" value="Boolean"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_P_BOOLEAN"/>
+            <column name="datatype_name" value="bool"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_BIGDECIMAL"/>
+            <column name="datatype_name" value="java.math.BigDecimal"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_LIST"/>
+            <column name="datatype_name" value="java.util.List"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="JAV"/>
+            <column name="datatype_code" value="JAV_C_OBJECT"/>
+            <column name="datatype_name" value="Object"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="TYS"/>
+            <column name="datatype_code" value="TYS_P_NUMBER"/>
+            <column name="datatype_name" value="number"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="TYS"/>
+            <column name="datatype_code" value="TYS_P_BOOLEAN"/>
+            <column name="datatype_name" value="boolean"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="TYS"/>
+            <column name="datatype_code" value="TYS_P_STRING"/>
+            <column name="datatype_name" value="string"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="TYS"/>
+            <column name="datatype_code" value="TYS_C_ARRAYS"/>
+            <column name="datatype_name" value="Arrays"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+
+		<insert tableName="ide_datatypes">
+			<column name="lang_code" value="TYS"/>
+            <column name="datatype_code" value="TYS_C_ANY"/>
+            <column name="datatype_name" value="any"/>
+            <column name="datatype_description" value=""/>
+            <column name="created_by" value="kevin"/>
+            <column name="created_date" valueDate="now()"/>
+		</insert>
+		
+		<!-- ****************************************************************** -->
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_STRING" />
+			<column name="to_datatype_code" value="JAV_C_STRING" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_INTEGER" />
+			<column name="to_datatype_code" value="JAV_C_INTEGER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_INTEGER" />
+			<column name="to_datatype_code" value="JAV_P_INTEGER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_DOUBLE" />
+			<column name="to_datatype_code" value="JAV_C_DOUBLE" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_DOUBLE" />
+			<column name="to_datatype_code" value="JAV_P_DOUBLE" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_LONG" />
+			<column name="to_datatype_code" value="JAV_C_LONG" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_LONG" />
+			<column name="to_datatype_code" value="JAV_P_LONG" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_BOOLEAN" />
+			<column name="to_datatype_code" value="JAV_C_BOOLEAN" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_BOOLEAN" />
+			<column name="to_datatype_code" value="JAV_P_BOOLEAN" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_BIGDECIMAL" />
+			<column name="to_datatype_code" value="JAV_C_BIGDECIMAL" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_LIST" />
+			<column name="to_datatype_code" value="JAV_C_LIST" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_OBJECT" />
+			<column name="to_datatype_code" value="JAV_C_OBJECT" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_STRING" />
+			<column name="to_datatype_code" value="TYS_P_STRING" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_INTEGER" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_INTEGER" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_DOUBLE" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_DOUBLE" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_LONG" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_LONG" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_BOOLEAN" />
+			<column name="to_datatype_code" value="TYS_P_BOOLEAN" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_P_BOOLEAN" />
+			<column name="to_datatype_code" value="TYS_P_BOOLEAN" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_BIGDECIMAL" />
+			<column name="to_datatype_code" value="TYS_P_NUMBER" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_LIST" />
+			<column name="to_datatype_code" value="TYS_C_ARRAYS" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_datatype_mappings">
+			<column name="from_datatype_code" value="IDE_C_OBJECT" />
+			<column name="to_datatype_code" value="TYS_C_ANY" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+		
+			<!-- ****************************************************************** -->
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="depth" value="0" />
+			<column name="name" value="1" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="parent_id" value="1" />
+			<column name="depth" value="1" />
+			<column name="name" value="2" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="parent_id" value="1" />
+			<column name="depth" value="1" />
+			<column name="name" value="2" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="parent_id" value="1" />
+			<column name="depth" value="1" />
+			<column name="name" value="2" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<insert tableName="ide_template_categories">
+			<column name="parent_id" value="1" />
+			<column name="depth" value="1" />
+			<column name="name" value="2" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+	
+		<rollback />
+    </changeSet>
+	
+</databaseChangeLog>

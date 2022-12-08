@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import peyto.ide.dao.api.MessageFieldDao;
+import peyto.ide.dao.api.MessageFieldsDao;
 import peyto.ide.data.AddMessageFieldData;
 import peyto.ide.data.ResData;
 import peyto.ide.data.IDData;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MessageFieldController {
 
     @Autowired
-    private MessageFieldDao messageFieldDao;
+    private MessageFieldsDao messageFieldDao;
 
     @PostMapping("/{messageId}/messagefield")
     public ResponseEntity<ResData<List<IDData>>> add(@RequestBody List<AddMessageFieldData> items) {
@@ -43,8 +43,11 @@ public class MessageFieldController {
     }
 
     @GetMapping("/{messageId}/messagefield")
-    public ResponseEntity<ResData<List<MessageFieldDto>>> getItemsByMessageId(@PathVariable("messageId") long messageId) {
-        List<MessageFieldDto> items = messageFieldDao.getItemsByMessageId(messageId);
+    public ResponseEntity<ResData<List<MessageFieldDto>>> getItemsByMessageId(
+    		@PathVariable("messageId") long messageId,
+    		@RequestParam("messageFieldType") int messageFieldType
+    		) {
+        List<MessageFieldDto> items = messageFieldDao.getItemsByMessageIdAndMessageFieldType(messageId, messageFieldType);
         return new ResponseEntity<>(ResData.success(items), HttpStatus.OK);
     }
 

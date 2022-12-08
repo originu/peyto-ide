@@ -3,16 +3,17 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="peyto.ide.dao.api.MessageFieldDao">
+<mapper namespace="peyto.ide.dao.api.MessageFieldsDao">
 
 	<insert id="add">
-		INSERT INTO ide_message_field
-		(message_id, message_field_order, message_field_depth, message_field_name, message_field_description, message_field_data_type,
-		message_field_length, created_by, created_date, updated_by, updated_date)
+		INSERT INTO ide_message_fields
+		(message_id, message_field_type, message_field_order, message_field_depth, message_field_name, message_field_description,
+			message_field_data_type, message_field_length, created_by, created_date, updated_by, updated_date)
 		VALUES
 		<foreach collection="list" item="item" separator=" , ">
 			(
 			#{item.messageId}
+			, #{item.messageFieldType}
 			, #{item.messageFieldOrder}
 			, #{item.messageFieldDepth}
 			, #{item.messageFieldName}
@@ -27,9 +28,10 @@
 		</foreach>
 	</insert>
 	
-	<select id="getItemsByMessageId" resultType="peyto.ide.dto.MessageFieldDto">
+	<select id="getItemsByMessageIdAndMessageFieldType" resultType="peyto.ide.dto.MessageFieldDto">
 		SELECT message_field_id
 			 , message_id
+			 , message_field_type
 			 , message_field_order
 			 , message_field_depth
 			 , message_field_name
@@ -40,14 +42,15 @@
 			 , created_date
 			 , updated_by
 			 , updated_date
-		FROM ide_message_field
+		FROM ide_message_fields
 		WHERE message_id = #{messageId}
+			AND message_field_type = #{messageFieldType}
 		ORDER BY message_field_order ASC
 	</select>
 	
 	<delete id="deleteByMessageId">
 		DELETE
-		FROM ide_message_field
+		FROM ide_message_fields
 		WHERE message_id = #{messageId}
 	</delete>
 

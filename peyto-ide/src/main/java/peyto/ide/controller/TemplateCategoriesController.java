@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import peyto.ide.dao.api.TemplateCategoryDao;
+import peyto.ide.dao.api.TemplateCategoriesDao;
 import peyto.ide.data.ResData;
 import peyto.ide.data.IDData;
 import peyto.ide.dto.TemplateCategoryDto;
 
 @Controller
 @RequestMapping("/api/template-category")
-public class TemplateCategoryController {
+public class TemplateCategoriesController {
 
 	@Autowired
-	private TemplateCategoryDao dao;
+	private TemplateCategoriesDao dao;
 	
 	@PostMapping("/level1")
 	public ResponseEntity<ResData<IDData>> addLevel1(@RequestBody String mm) {

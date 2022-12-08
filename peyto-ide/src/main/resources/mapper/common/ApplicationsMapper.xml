@@ -3,10 +3,10 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="peyto.ide.dao.api.ApplicationDao">
+<mapper namespace="peyto.ide.dao.api.ApplicationsDao">
 
 	<insert id="add">
-		INSERT INTO ide_application_list
+		INSERT INTO ide_applications
 		(application_name, application_description, created_by, created_date, updated_by, updated_date)
 		VALUES (#{applicationName}, #{applicationDescription}, #{createdBy}, #{createdDate}, #{updatedBy}, #{updatedDate})
 	</insert>
@@ -19,13 +19,13 @@
 			 , created_date
 			 , updated_by
 			 , updated_date
-		FROM ide_application_list
+		FROM ide_applications
 		ORDER BY application_name ASC
 	</select>
 	
 	<update id="update">
 		UPDATE
-			ide_application_list
+			ide_applications
 		SET application_name        = #{applicationName}
 		  , application_description = #{applicationDescription}
 		  , updated_by              = #{updatedDate}
@@ -35,7 +35,7 @@
 
 	<delete id="delete">
 		DELETE
-		FROM ide_application_list
+		FROM ide_applications
 		WHERE application_id = #{applicationId}
 	</delete>
 

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class UpdateMessageData {
     private long messageId;
     private long applicationId;
+    private long messageChannelId;
     private String messageName;
     private String messageDescription;
 
@@ -23,6 +24,14 @@ public class UpdateMessageData {
     public void setApplicationId(long applicationId) {
         this.applicationId = applicationId;
     }
+
+	public long getMessageChannelId() {
+		return messageChannelId;
+	}
+
+	public void setMessageChannelId(long messageChannelId) {
+		this.messageChannelId = messageChannelId;
+	}
 
     public String getMessageName() {
         return messageName;

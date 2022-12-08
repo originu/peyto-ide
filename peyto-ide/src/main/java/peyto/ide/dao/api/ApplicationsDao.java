@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface ApplicationDao {
+public interface ApplicationsDao {
 
 	int add(ApplicationDto dto);
 	List<ApplicationDto> getItems();

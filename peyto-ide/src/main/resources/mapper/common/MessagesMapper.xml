@@ -3,31 +3,31 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="peyto.ide.dao.api.MessageDao">
+<mapper namespace="peyto.ide.dao.api.MessagesDao">
 
 	<insert id="add">
-		INSERT INTO ide_message_list
-		(application_id, message_name, message_description, created_by, created_date, updated_by, updated_date)
-		VALUES (#{applicationId}, #{messageName}, #{messageDescription}, #{createdBy}, #{createdDate}, #{updatedBy}, #{updatedDate})
+		INSERT INTO ide_messages
+		(message_channel_id, message_name, message_description, created_by, created_date, updated_by, updated_date)
+		VALUES (#{messageChannelId}, #{messageName}, #{messageDescription}, #{createdBy}, #{createdDate}, #{updatedBy}, #{updatedDate})
 	</insert>
 	
-	<select id="getItemsByApplicationId" resultType="peyto.ide.dto.MessageDto">
+	<select id="getItemsByMessageChannelId" resultType="peyto.ide.dto.MessageDto">
 		SELECT message_id
-			 , application_id
+			 , message_channel_id
 			 , message_name
 			 , message_description
 			 , created_by
 			 , created_date
 			 , updated_by
 			 , updated_date
-		FROM ide_message_list
-		WHERE application_id = #{applicationId}
+		FROM ide_messages
+		WHERE message_channel_id = #{messageChannelId}
 		ORDER BY message_name ASC
 	</select>
 	
 	<update id="update">
 		UPDATE
-			ide_message_list
+			ide_messages
 		SET message_name= #{messageName}
 		  , message_description= #{messageDescription}
 		  , updated_by = #{updatedDate}
@@ -37,7 +37,7 @@
 
 	<delete id="delete">
 		DELETE
-		FROM ide_message_list
+		FROM ide_messages
 		WHERE message_id = #{messageId}
 	</delete>
 

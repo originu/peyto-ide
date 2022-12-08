@@ -7,8 +7,168 @@
 
 	<!-- https://dba-presents.com/liquibase/216-liquibase-3-6-x-data-types-mapping-table -->
 
-    <changeSet id="create template list" author="kevin">
-        <createTable tableName="ide_template_list">
+    <changeSet id="create initial tables" author="kevin">
+        
+        <createTable tableName="ide_applications">
+        	<column name="application_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="application_name" type="varchar(255)">
+            	<constraints nullable="false" unique="true"/>
+            </column>
+            <column name="application_description" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+    
+		<createTable tableName="ide_message_channels">
+        	<column name="message_channel_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="application_id" type="bigint">
+            	<constraints nullable="false" foreignKeyName="fk_ide_message_channels_application_id" references="ide_applications(application_id)" deleteCascade="true"/>
+            </column>
+            <column name="message_channel_name" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_channel_description" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+    
+        <createTable tableName="ide_messages">
+        	<column name="message_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="message_channel_id" type="bigint">
+            	<constraints nullable="false" foreignKeyName="fk_ide_messages_message_channel_id" references="ide_message_channels(message_channel_id)" deleteCascade="true"/>
+            </column>
+            <column name="message_name" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_description" type="varchar(255)"/>
+            
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="ide_message_fields">
+        	<column name="message_field_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="message_id" type="bigint">
+            	<constraints nullable="false" foreignKeyName="fk_ide_message_fields_message_id" references="ide_messages(message_id)" deleteCascade="true"/>
+            </column>
+            <column name="message_field_type" type="int">	<!-- 100 : Request, 200: Response -->
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_field_order" type="int">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_field_depth" type="int">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_field_name" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="message_field_description" type="varchar(255)"/>
+            <column name="message_field_data_type" type="varchar(255)"/>
+            <column name="message_field_length" type="bigint"/>
+            
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+        
+		<createTable tableName="ide_languages">
+        	<column name="lang_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="lang_code" type="varchar(255)">
+            	<constraints nullable="false" unique="true"/>
+            </column>
+            <column name="lang_name" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="lang_description" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="ide_datatypes">
+        	<column name="datatype_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="lang_code" type="varchar(255)">
+            	<constraints nullable="false" foreignKeyName="fk_ide_datatypes_lang_code" references="ide_languages(lang_code)" deleteCascade="true"/>
+            </column>
+            <column name="datatype_code" type="varchar(255)">
+            	<constraints nullable="false" unique="true"/>
+            </column>
+            <column name="datatype_name" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="datatype_description" type="varchar(255)"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="ide_datatype_mappings">
+        	<column name="mapping_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+            <column name="from_datatype_code" type="varchar(255)">
+            	<constraints nullable="false" foreignKeyName="fk_ide_datatype_mappings_from_datatype_code" references="ide_datatypes(datatype_code)" deleteCascade="true"/>
+            </column>
+            <column name="to_datatype_code" type="varchar(255)">
+            	<constraints nullable="false" foreignKeyName="fk_ide_datatype_mappings_to_datatype_code" references="ide_datatypes(datatype_code)" deleteCascade="true"/>
+            </column>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(255)"/>
+            <column name="updated_date" type="timestamp"/>
+        </createTable>
+        
+        <createTable tableName="ide_templates">
         	<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
 			</column>
@@ -16,15 +176,17 @@
             <column name="content" type="clob"/>
             <column name="version" type="int"/>
             <column name="is_default" type="tinyint"/>
-            <column name="created_by" type="varchar(255)"/>
-            <column name="created_date" type="timestamp"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
             <column name="updated_by" type="varchar(255)"/>
             <column name="updated_date" type="timestamp"/>
         </createTable>
-    </changeSet>
 
-    <changeSet id="create template category list" author="kevin">
-        <createTable tableName="ide_template_category_list">
+        <createTable tableName="ide_template_categories">
         	<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
 			</column>
@@ -32,13 +194,17 @@
             <column name="depth" type="int"/>
             <column name="name" type="varchar(255)"/>
             <column name="description" type="varchar(255)"/>
-            <column name="created_by" type="varchar(255)"/>
-            <column name="created_date" type="timestamp"/>
+            <column name="created_by" type="varchar(255)">
+            	<constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp">
+            	<constraints nullable="false"/>
+            </column>
             <column name="updated_by" type="varchar(255)"/>
             <column name="updated_date" type="timestamp"/>
         </createTable>
+        
     </changeSet>
-    
     
 
 </databaseChangeLog>

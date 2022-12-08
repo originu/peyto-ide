@@ -1,18 +1,18 @@
 package peyto.ide.dao.api;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import peyto.ide.dto.MessageDto;
-import peyto.ide.dto.MessageFieldDto;
 
-import java.util.List;
+import peyto.ide.dto.MessageFieldDto;
 
 @Mapper
 @Repository
-public interface MessageFieldDao {
+public interface MessageFieldsDao {
 
 	int add(List<MessageFieldDto> items);
-	List<MessageFieldDto> getItemsByMessageId(@Param("messageId") long messageId);
+	List<MessageFieldDto> getItemsByMessageIdAndMessageFieldType(@Param("messageId") long messageId, @Param("messageFieldType") int messageFieldType);
 	int deleteByMessageId(@Param("messageId") long messageId);
 }
