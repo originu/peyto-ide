@@ -1,8 +1,10 @@
 package peyto.ide.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import peyto.ide.data.AddMessageData;
 import peyto.ide.data.UpdateMessageData;
 
@@ -45,8 +51,10 @@ class MessageControllerTest {
 	@Test
 	void testAddMessage() throws Exception {
 		long applicationId = 1;
+		long messageChannelId = 1;
 		AddMessageData data = new AddMessageData();
 		data.setApplicationId(applicationId);
+		data.setMessageChannelId(messageChannelId);
 		data.setMessageName("sample api");
 		data.setMessageDescription("this is a sample api");
 		ObjectMapper MAPPER = new ObjectMapper();
@@ -63,9 +71,9 @@ class MessageControllerTest {
 
 	@Test
 	void testGetMessageByApplicationId() throws Exception {
-		long applicationId = 1;
+		long messageChannelId = 1;
 		ResultActions perform = mockMvc.perform(
-				MockMvcRequestBuilders.get(String.format("/api/message?applicationId=%s", applicationId)));
+				MockMvcRequestBuilders.get(String.format("/api/message?messageChannelId=%s", messageChannelId)));
 		MvcResult andReturn = perform.andReturn();
 		MockHttpServletResponse response = andReturn.getResponse();
 		String contentAsString = response.getContentAsString();

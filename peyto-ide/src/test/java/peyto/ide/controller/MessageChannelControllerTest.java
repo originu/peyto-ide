@@ -18,13 +18,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import peyto.ide.data.AddApplicationData;
-import peyto.ide.data.UpdateApplicationData;
+import peyto.ide.data.AddMessageChannelData;
+import peyto.ide.data.UpdateMessageChannelData;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class ApplicationControllerTest {
+class MessageChannelControllerTest {
 
+	ObjectMapper MAPPER = new ObjectMapper();
+	
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -49,14 +51,13 @@ class ApplicationControllerTest {
 	}
 
 	@Test
-	void testAddApplication() throws Exception {
-		AddApplicationData data = new AddApplicationData();
-		data.setApplicationName("sample app");
-		data.setApplicationDescription("this is a sample application");
-		ObjectMapper MAPPER = new ObjectMapper();
+	void testAddMessageChannel() throws Exception {
+		AddMessageChannelData data = new AddMessageChannelData();
+		data.setMessageChannelName("frontend-backend");
+		data.setMessageChannelDescription("");
 		ObjectNode objectNode = MAPPER.convertValue(data, ObjectNode.class);
 		ResultActions perform = mockMvc.perform(
-				MockMvcRequestBuilders.post("/api/application")
+				MockMvcRequestBuilders.post("/api/message-channel")
 						.content(objectNode.toString())
 						.contentType(MediaType.APPLICATION_JSON));
 		MvcResult andReturn = perform.andReturn();
@@ -66,9 +67,9 @@ class ApplicationControllerTest {
 	}
 
 	@Test
-	void testGetApplications() throws Exception {
+	void testGetMessageChannels() throws Exception {
 		ResultActions perform = mockMvc.perform(
-				MockMvcRequestBuilders.get("/api/application"));
+				MockMvcRequestBuilders.get("/api/message-channel?applicationId=1"));
 		MvcResult andReturn = perform.andReturn();
 		MockHttpServletResponse response = andReturn.getResponse();
 		String contentAsString = response.getContentAsString();
@@ -76,16 +77,15 @@ class ApplicationControllerTest {
 	}
 
 	@Test
-	void testUpdateApplication() throws Exception {
-		long applicationId = 2;
-		UpdateApplicationData data = new UpdateApplicationData();
-		data.setApplicatoinId(applicationId);
-		data.setApplicationName("hello app");
-		data.setApplicationDescription("this is a hello application");
-		ObjectMapper MAPPER = new ObjectMapper();
+	void testUpdateMessageChannel() throws Exception {
+		long messageChannelId = 1;
+		UpdateMessageChannelData data = new UpdateMessageChannelData();
+		data.setMessageChannelId(messageChannelId);
+		data.setMessageChannelName("client-server");
+		data.setMessageChannelDescription("");
 		ObjectNode objectNode = MAPPER.convertValue(data, ObjectNode.class);
 		ResultActions perform = mockMvc.perform(
-				MockMvcRequestBuilders.put(String.format("/api/application/%s", applicationId))
+				MockMvcRequestBuilders.put(String.format("/api/message-channel/%s", messageChannelId))
 						.content(objectNode.toString())
 						.contentType(MediaType.APPLICATION_JSON));
 		MvcResult andReturn = perform.andReturn();
@@ -95,16 +95,14 @@ class ApplicationControllerTest {
 	}
 
 	@Test
-	void testRemoveApplication() throws Exception {
-		long applicationId = 2;
+	void testRemoveMessageChannel() throws Exception {
+		long messageChannelId = 1;
 		ResultActions perform = mockMvc.perform(
-				MockMvcRequestBuilders.delete(String.format("/api/application/%s",  applicationId)));
+				MockMvcRequestBuilders.delete(String.format("/api/message-channel/%s",  messageChannelId)));
 		MvcResult andReturn = perform.andReturn();
 		MockHttpServletResponse response = andReturn.getResponse();
 		String contentAsString = response.getContentAsString();
 		System.out.println(contentAsString);
 	}
-
-
 
 }
