@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class MessageDto {
     private long messageId;
-    private long applicationId;
+    private long messageChannelId;
     private String messageName;
     private String messageDescription;
     private String createdBy;
@@ -22,12 +22,12 @@ public class MessageDto {
         this.messageId = messageId;
     }
 
-    public long getApplicationId() {
-        return applicationId;
+    public long getMessageChannelId() {
+        return messageChannelId;
     }
 
-    public void setApplicationId(long applicationId) {
-        this.applicationId = applicationId;
+    public void setMessageChannelId(long messageChannelId) {
+        this.messageChannelId = messageChannelId;
     }
 
     public String getMessageName() {

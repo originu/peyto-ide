@@ -14,6 +14,7 @@ public class MessageFieldDto implements Serializable {
 	
 	private long messageFieldId;
     private long messageId;
+    private int messageFieldType;		// 100: request, 200: response
     private int messageFieldOrder;
     private int messageFieldDepth;
     private String messageFieldName;
@@ -41,6 +42,14 @@ public class MessageFieldDto implements Serializable {
         this.messageId = messageId;
     }
 
+	public int getMessageFieldType() {
+		return messageFieldType;
+	}
+
+	public void setMessageFieldType(int messageFieldType) {
+		this.messageFieldType = messageFieldType;
+	}
+	
     public int getMessageFieldOrder() {
         return messageFieldOrder;
     }
@@ -125,4 +134,5 @@ public class MessageFieldDto implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
+
 }

@@ -46,6 +46,8 @@ public class MessageFieldComposite extends Composite {
 	private MessageFieldEditorInput editorInput;
 
 	private HttpService httpService;
+
+	private int messageFieldType;
 	
 	/**
 	 * Create the composite.
@@ -215,7 +217,7 @@ public class MessageFieldComposite extends Composite {
 	public void init() {
 		this.httpService = appContext.getBean(HttpService.class);
 		MessageDto data = editorInput.getData();
-		String resourcePath = String.format( "/api/message/%s/messagefield", data.getMessageId());
+		String resourcePath = String.format( "/api/message/%s/messagefield?messageFieldType=%s", data.getMessageId(), getMessageFieldType());
 		httpService.callAsync(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
@@ -324,5 +326,13 @@ public class MessageFieldComposite extends Composite {
 		treeViewer.refresh();
 		treeViewer.expandAll();
 	}
-	
+
+	public void setMessageFieldType(int messageFieldType) {
+		this.messageFieldType = messageFieldType;
+	}
+
+	public int getMessageFieldType() {
+		return this.messageFieldType;
+	}
+
 }

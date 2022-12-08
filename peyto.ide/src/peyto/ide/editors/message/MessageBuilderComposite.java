@@ -39,6 +39,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import peyto.ide.Activator;
 import peyto.ide.core.data.ApplicationDto;
+import peyto.ide.core.data.MessageChannelDto;
 import peyto.ide.core.data.MessageDto;
 import peyto.ide.core.data.ResData;
 import peyto.ide.core.service.HttpService;
@@ -50,8 +51,9 @@ public class MessageBuilderComposite extends Composite {
 	private AbstractApplicationContext appContext;
 	private HttpService httpService;
 	
-	private ComboViewer comboViewer;
-	private TableViewer tableViewer;
+	private ComboViewer applicationsComboViewer;
+	private ComboViewer messageChannelComboViewer;
+	private TableViewer messagesTableViewer;
 	private Table table;
 	private Text text;
 	
@@ -66,15 +68,15 @@ public class MessageBuilderComposite extends Composite {
 		
 		Label lblNewLabel = new Label(this, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblNewLabel.setText("Application");
+		lblNewLabel.setText("Applications");
 		
-		comboViewer = new ComboViewer(this, SWT.NONE | SWT.READ_ONLY);
-		Combo combo = comboViewer.getCombo();
+		applicationsComboViewer = new ComboViewer(this, SWT.NONE | SWT.READ_ONLY);
+		Combo combo = applicationsComboViewer.getCombo();
 		GridData gd_combo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_combo.widthHint = 79;
 		combo.setLayoutData(gd_combo);
-		comboViewer.setContentProvider(ArrayContentProvider.getInstance());
-		comboViewer.setLabelProvider(new LabelProvider() {
+		applicationsComboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		applicationsComboViewer.setLabelProvider(new LabelProvider() {
 		    @Override
 		    public String getText(Object element) {
 		        if (element instanceof ApplicationDto) {
@@ -85,20 +87,20 @@ public class MessageBuilderComposite extends Composite {
 		        }
 		    }
 		});
-		comboViewer.addSelectionChangedListener( new ISelectionChangedListener() {
+		applicationsComboViewer.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent arg0) {
 				if ( arg0.getSelection() instanceof StructuredSelection) {
 					StructuredSelection s = (StructuredSelection)arg0.getSelection();
 					ApplicationDto dto = (ApplicationDto)s.getFirstElement();
 					
-					String resourcePath = String.format( "/api/message?applicationId=%s", dto.getApplicationId());
+					String resourcePath = String.format( "/api/message-channel?applicationId=%s", dto.getApplicationId());
 					httpService.callAsync(resourcePath, new ResponseHandler() {
 						@Override
 						public void completed(SimpleHttpResponse response) {
 							try {
-								ResData<List<MessageDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<MessageDto>>>() {});
-								tableViewer.setInput(data.getBody());
+								ResData<List<MessageChannelDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<MessageChannelDto>>>() {});
+								messageChannelComboViewer.setInput(data.getBody());
 							} catch (Exception e) {
 								e.printStackTrace();
 								Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "test error");
@@ -112,9 +114,9 @@ public class MessageBuilderComposite extends Composite {
 		});
 		
 		
-		Button refreshButton = new Button(this, SWT.NONE);
-		refreshButton.setText("Refresh");
-		refreshButton.addMouseListener(new MouseAdapter() {
+		Button applicationRefreshButton = new Button(this, SWT.NONE);
+		applicationRefreshButton.setText("Refresh");
+		applicationRefreshButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				String resourcePath = String.format( "/api/application");
@@ -123,7 +125,7 @@ public class MessageBuilderComposite extends Composite {
 					public void completed(SimpleHttpResponse response) {
 						try {
 							ResData<List<ApplicationDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<ApplicationDto>>>() {});
-							comboViewer.setInput(data.getBody());
+							applicationsComboViewer.setInput(data.getBody());
 						} catch (Exception e) {
 							e.printStackTrace();
 							Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "test error");
@@ -141,15 +143,86 @@ public class MessageBuilderComposite extends Composite {
 		text = new Text(this, SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		tableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION);
-		tableViewer.setContentProvider( new ArrayContentProvider() );
-		table = tableViewer.getTable();
+		Label lblNewLabel_2 = new Label(this, SWT.NONE);
+		lblNewLabel_2.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblNewLabel_2.setText("Message Channels");
+		
+		messageChannelComboViewer = new ComboViewer(this, SWT.NONE | SWT.READ_ONLY);
+		messageChannelComboViewer.setContentProvider(ArrayContentProvider.getInstance());
+		messageChannelComboViewer.setLabelProvider(new LabelProvider() {
+		    @Override
+		    public String getText(Object element) {
+		        if (element instanceof MessageChannelDto) {
+		        	MessageChannelDto type = (MessageChannelDto) element;
+		            return type.getMessageChannelName();
+		        } else {
+		        	return "unknown";
+		        }
+		    }
+		});
+		messageChannelComboViewer.addSelectionChangedListener( new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent arg0) {
+				if ( arg0.getSelection() instanceof StructuredSelection) {
+					StructuredSelection s = (StructuredSelection)arg0.getSelection();
+					MessageChannelDto dto = (MessageChannelDto)s.getFirstElement();
+					
+					String resourcePath = String.format( "/api/message?messageChannelId=%s", dto.getMessageChannelId());
+					httpService.callAsync(resourcePath, new ResponseHandler() {
+						@Override
+						public void completed(SimpleHttpResponse response) {
+							try {
+								ResData<List<MessageDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<MessageDto>>>() {});
+								messagesTableViewer.setInput(data.getBody());
+							} catch (Exception e) {
+								e.printStackTrace();
+								Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "test error");
+								ErrorDialog.openError(getShell(), "Error", "Exception occured during calling API", status);
+							}
+						}
+					});
+				}
+				
+			}
+		});
+		Combo combo_1 = messageChannelComboViewer.getCombo();
+		combo_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Button messageChannelRefreshButton = new Button(this, SWT.NONE);
+		messageChannelRefreshButton.setText("Refresh");
+		messageChannelRefreshButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				StructuredSelection s = (StructuredSelection)messageChannelComboViewer.getSelection();
+				MessageChannelDto dto = (MessageChannelDto)s.getFirstElement();
+				String resourcePath = String.format( "/api/message-channel?applicationId=%s", dto.getApplicationId());
+				httpService.callAsync(resourcePath, new ResponseHandler() {
+					@Override
+					public void completed(SimpleHttpResponse response) {
+						try {
+							ResData<List<MessageChannelDto>> data = JsonUtil.MAPPER.readValue(response.getBodyText(), new TypeReference<ResData<List<MessageChannelDto>>>() {});
+							messageChannelComboViewer.setInput(data.getBody());
+						} catch (Exception e) {
+							e.printStackTrace();
+							Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, "test error");
+							ErrorDialog.openError(getShell(), "Error", "Exception occured during calling API", status);
+						}
+					}
+				});
+			}
+		});
+		new Label(this, SWT.NONE);
+		new Label(this, SWT.NONE);
+		
+		messagesTableViewer = new TableViewer(this, SWT.BORDER | SWT.FULL_SELECTION);
+		messagesTableViewer.setContentProvider( new ArrayContentProvider() );
+		table = messagesTableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 5, 1));
 		table.setLinesVisible(true);
 		table.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );
 		table.setHeaderVisible( true );
 		
-		TableViewerColumn messageIdColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableViewerColumn messageIdColumn = new TableViewerColumn(messagesTableViewer, SWT.NONE);
 		messageIdColumn.getColumn().setWidth(160);
 		messageIdColumn.getColumn().setResizable(true);
 		messageIdColumn.getColumn().setText("ID");
@@ -161,7 +234,7 @@ public class MessageBuilderComposite extends Composite {
 		    }
 		});
 		
-		TableViewerColumn messageNameColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableViewerColumn messageNameColumn = new TableViewerColumn(messagesTableViewer, SWT.NONE);
 		messageNameColumn.getColumn().setWidth(160);
 		messageNameColumn.getColumn().setResizable(true);
 		messageNameColumn.getColumn().setText("Name");
@@ -173,7 +246,7 @@ public class MessageBuilderComposite extends Composite {
 			}
 		});
 		
-		TableViewerColumn messageDescColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableViewerColumn messageDescColumn = new TableViewerColumn(messagesTableViewer, SWT.NONE);
 		messageDescColumn.getColumn().setWidth(160);
 		messageDescColumn.getColumn().setResizable(true);
 		messageDescColumn.getColumn().setText("Description");
@@ -185,7 +258,7 @@ public class MessageBuilderComposite extends Composite {
 			}
 		});
 		
-		TableViewerColumn messageUpdatedColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableViewerColumn messageUpdatedColumn = new TableViewerColumn(messagesTableViewer, SWT.NONE);
 		messageUpdatedColumn.getColumn().setWidth(160);
 		messageUpdatedColumn.getColumn().setResizable(true);
 		messageUpdatedColumn.getColumn().setText("Updated Date");
@@ -197,14 +270,14 @@ public class MessageBuilderComposite extends Composite {
 					if (dto.getCreatedDate() == null) {
 						return "";
 					} else {
-						return dto.getUpdatedDate().toString();
+						return dto.getCreatedDate().toString();
 					}
 				} else {
 					return dto.getCreatedDate().toString();
 				}
 			}
 		});
-		tableViewer.addDoubleClickListener( new IDoubleClickListener() {
+		messagesTableViewer.addDoubleClickListener( new IDoubleClickListener() {
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection	selection	= (IStructuredSelection)event.getSelection();
