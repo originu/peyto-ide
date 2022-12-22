@@ -1,7 +1,6 @@
 package peyto.ide.editors.template;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
 import org.eclipse.jface.viewers.ArrayContentProvider;

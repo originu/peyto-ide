@@ -3,6 +3,7 @@ package peyto.ide.editors.template;
 import java.util.List;
 
 import org.apache.hc.client5.http.async.methods.SimpleHttpResponse;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -30,7 +31,7 @@ import peyto.ide.core.data.TemplateCategoryDto;
 import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
-import peyto.ide.editors.template.ui.TemplateCategoryAddDialog;
+import peyto.ide.editors.template.ui.TemplateCategoryAddOrUpdateDialog;
 
 public class TemplateEditorCategoriesComposite extends Composite {
 
@@ -47,16 +48,26 @@ public class TemplateEditorCategoriesComposite extends Composite {
 	 */
 	public TemplateEditorCategoriesComposite(Composite parent, int style) {
 		super(parent, style);
-		setLayout(new GridLayout(3, false));
+		setLayout(new GridLayout(4, false));
 		
 		Button addButton = new Button(this, SWT.NONE);
 		addButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				TemplateCategoryAddDialog dialog = new TemplateCategoryAddDialog(getShell());
+				TemplateCategoryAddOrUpdateDialog dialog = new TemplateCategoryAddOrUpdateDialog(getShell());
 				dialog.create();
 				if (dialog.open() == Window.OK) {
-					System.out.println(TemplateEditorCategoriesComposite.class);
+					TemplateCategoryDto dto = new TemplateCategoryDto();
+					dto.setCategoryCode(dialog.getCategoryCode());
+					dto.setCategoryName(dialog.getCategoryName());
+					dto.setDescription(dialog.getDescription());
+					String resourcePath = String.format("/api/template-category");
+					httpService.post(resourcePath, dto, new ResponseHandler() {
+						@Override
+						public void completed(SimpleHttpResponse response) {
+							updateContent();
+						}
+					});	
 				}
 			}
 		});
@@ -70,6 +81,31 @@ public class TemplateEditorCategoriesComposite extends Composite {
 		updateButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+				TemplateCategoryDto selectedDto = (TemplateCategoryDto) selection.getFirstElement();
+				if (selectedDto != null) {
+					TemplateCategoryAddOrUpdateDialog dialog = new TemplateCategoryAddOrUpdateDialog(
+							getShell(),
+							selectedDto.getCategoryCode(),
+							selectedDto.getCategoryName(),
+							selectedDto.getDescription()
+							);
+					dialog.create();
+					if (dialog.open() == Window.OK) {
+						TemplateCategoryDto dto = new TemplateCategoryDto();
+						dto.setId(selectedDto.getId());
+						dto.setCategoryCode(dialog.getCategoryCode());
+						dto.setCategoryName(dialog.getCategoryName());
+						dto.setDescription(dialog.getDescription());
+						String resourcePath = String.format("/api/template-category/%s", selectedDto.getId());
+						httpService.put(resourcePath, dto, new ResponseHandler() {
+							@Override
+							public void completed(SimpleHttpResponse response) {
+								updateContent();
+							}
+						});	
+					}
+				}
 				
 			}
 		});
@@ -78,14 +114,46 @@ public class TemplateEditorCategoriesComposite extends Composite {
 		updateButton.setLayoutData(gd_updateButton);
 		updateButton.setText("Update");
 		
+		Button refreshButton = new Button(this, SWT.NONE);
+		refreshButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateContent();
+			}
+		});
+		GridData gd_refreshButton = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_refreshButton.widthHint = 80;
+		refreshButton.setLayoutData(gd_refreshButton);
+		refreshButton.setText("Refresh");
+		
 		Button removeButton = new Button(this, SWT.NONE);
 		removeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-//				MessageDialog.openWarning(getShell(), "Warning", "Are you sure to delete a template category?");
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+				TemplateCategoryDto dto = (TemplateCategoryDto) selection.getFirstElement();
+				boolean result = MessageDialog.openConfirm(
+						getShell(),
+						"Warning",
+						String.format(
+								"Are you sure to delete a template category?\n- CategoryCode: %s\n- CategoryName: %s",
+								dto.getCategoryCode(),
+								dto.getCategoryName()
+								)
+						);
+				if (result) {
+					String resourcePath = String.format("/api/template-category/%s", dto.getId());
+					httpService.delete(resourcePath, new ResponseHandler() {
+						@Override
+						public void completed(SimpleHttpResponse response) {
+							updateContent();
+						}
+					});
+				}
+				
 			}
 		});
-		GridData gd_removeButton = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		GridData gd_removeButton = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_removeButton.widthHint = 80;
 		removeButton.setLayoutData(gd_removeButton);
 		removeButton.setText("Remove");
@@ -100,7 +168,7 @@ public class TemplateEditorCategoriesComposite extends Composite {
 		});
 		Table table = tableViewer.getTable();
 		table.setHeaderBackground(Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1);
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 4, 1);
 		gd_table.widthHint = 380;
 		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
@@ -177,7 +245,7 @@ public class TemplateEditorCategoriesComposite extends Composite {
 					e.printStackTrace();
 				}
 			}
-		});		
+		});
 	}
 
 	public void setTemplateEditorTemplatesComposite(TemplateEditorTemplatesComposite templateEditorTemplatesComposite) {
