@@ -1,15 +1,16 @@
 package peyto.ide.dto;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class TemplateCategoryDto {
+import java.util.Date;
+
+public class TemplateDto {
 
 	private long id;
 	private String categoryCode;
-	private String categoryName;
-	private String description;
+	private int revision;
+	private String revisionName;
+	private String content;
 	private String createdBy;
 	private Date createdDate;
 	private String updatedBy;
@@ -31,20 +32,28 @@ public class TemplateCategoryDto {
 		this.categoryCode = categoryCode;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public int getRevision() {
+		return revision;
 	}
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getRevisionName() {
+		return revisionName;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRevisionName(String revisionName) {
+		this.revisionName = revisionName;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getCreatedBy() {
@@ -83,5 +92,4 @@ public class TemplateCategoryDto {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

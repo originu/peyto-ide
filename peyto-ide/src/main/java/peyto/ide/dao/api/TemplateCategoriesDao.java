@@ -12,14 +12,11 @@ import peyto.ide.dto.TemplateCategoryDto;
 @Repository
 public interface TemplateCategoriesDao {
 
-	int addLevel1(TemplateCategoryDto dto);
-	List<TemplateCategoryDto> getListOfLevel1();
-	int updateLevel1(TemplateCategoryDto dto);
-	int removeLevel1(int level1Id);
-	
-	int addLevel2(TemplateCategoryDto dto);
-	List<TemplateCategoryDto> getListOfLevel2(@Param("level1Id") long level1Id);
-	int updateLevel2(TemplateCategoryDto dto);
-	int removeLevel2(@Param("level1Id") long level1Id, @Param("level2Id") long level2Id);
-	
+	int add(TemplateCategoryDto dto);
+	List<TemplateCategoryDto> getItems();
+	TemplateCategoryDto getItem(@Param("id") long id);
+	TemplateCategoryDto getItemByCategoryCode(@Param("categoryCode") String categoryCode);
+	int update(TemplateCategoryDto dto);
+	int delete(@Param("id") long id);
+
 }

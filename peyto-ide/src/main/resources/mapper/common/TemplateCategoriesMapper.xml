@@ -5,24 +5,52 @@
 
 <mapper namespace="peyto.ide.dao.api.TemplateCategoriesDao">
 
-<!-- 
-	int addLevel1(TemplateCategoryDto dto);
-	List<TemplateCategoryDto> getListOfLevel1();
-	int updateLevel1(TemplateCategoryDto dto);
-	int removeLevel1(int level1Id);
+	<insert id="add">
+		INSERT INTO
+			ide_template_categories
+			(category_code, category_name, description, created_by, created_date)
+		VALUES (#{categoryCode}, #{categoryName}, #{description}, #{createdBy}, #{createdDate})
+	</insert>
 
-	int addLevel2(TemplateCategoryDto dto);
-	List<TemplateCategoryDto> getListOfLevel2();
-	int updateLevel2(TemplateCategoryDto dto);
-	int removeLevel2(int level1Id);
--->
+	<select id="getItems" resultType="peyto.ide.dto.TemplateCategoryDto">
+		select
+		    id
+		    , category_code
+		    , category_name
+		    , description
+			, created_by
+			, created_date
+			, updated_by
+			, updated_date
+		from
+			ide_template_categories
+		order by
+		    category_name asc
+    </select>
 
-    <select id="getListOfLevel1" resultType="peyto.ide.dto.TemplateCategoryDto">
+	<select id="getItem" resultType="peyto.ide.dto.TemplateCategoryDto">
 		select
 			id
-			, parent_id
-			, depth
-			, name
+			, category_code
+			, category_name
+			, description
+			, created_by
+			, created_date
+			, updated_by
+			, updated_date
+		from
+		    ide_template_categories
+		where
+			id = #{id}
+		order by
+		    category_name asc
+	</select>
+
+	<select id="getItemByCategoryCode" resultType="peyto.ide.dto.TemplateCategoryDto">
+		select
+			id
+			, category_code
+			, category_name
 			, description
 			, created_by
 			, created_date
@@ -31,30 +59,29 @@
 		from
 			ide_template_categories
 		where
-			depth = 1
-			and parent_id is null 
+			category_code = #{categoryCode}
 		order by
-			name asc
-    </select>
+			category_name asc
+	</select>
 
-    <select id="getListOfLevel2" resultType="peyto.ide.dto.TemplateCategoryDto">
-		select
-			id
-			, parent_id
-			, depth
-			, name
-			, description
-			, created_by
-			, created_date
-			, updated_by
-			, updated_date
-		from
+	<update id="update">
+		UPDATE
 			ide_template_categories
-		where
-			depth = 2
-			and parent_id = #{level1Id}
-		order by
-			name asc
-    </select>
+		SET
+			category_code = #{categoryCode}
+			, category_name = #{categoryName}
+			, description = #{description}
+			, updated_by = #{updatedBy}
+			, updated_date = #{updatedDate}
+		WHERE
+			id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM
+			ide_template_categories
+		WHERE
+			id = #{id}
+	</delete>
 
 </mapper>

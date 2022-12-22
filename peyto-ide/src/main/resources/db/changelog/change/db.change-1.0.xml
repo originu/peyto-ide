@@ -168,14 +168,17 @@
             <column name="updated_date" type="timestamp"/>
         </createTable>
         
-        <createTable tableName="ide_templates">
+        <createTable tableName="ide_template_categories">
         	<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
 			</column>
-            <column name="category_id" type="bigint"/>
-            <column name="content" type="clob"/>
-            <column name="version" type="int"/>
-            <column name="is_default" type="tinyint"/>
+            <column name="category_code" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="category_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
             <column name="created_by" type="varchar(255)">
             	<constraints nullable="false"/>
             </column>
@@ -186,14 +189,20 @@
             <column name="updated_date" type="timestamp"/>
         </createTable>
 
-        <createTable tableName="ide_template_categories">
+        <createTable tableName="ide_templates">
         	<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
 			</column>
-            <column name="parent_id" type="bigint"/>
-            <column name="depth" type="int"/>
-            <column name="name" type="varchar(255)"/>
-            <column name="description" type="varchar(255)"/>
+            <column name="category_code" type="varchar(255)">
+                <constraints nullable="false" foreignKeyName="fk_ide_templates_category_code" references="ide_template_categories(category_code)" deleteCascade="true"/>
+            </column>
+            <column name="revision" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_name" type="varchar(255)"/>
+            <column name="content" type="clob">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_by" type="varchar(255)">
             	<constraints nullable="false"/>
             </column>

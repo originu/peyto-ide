@@ -1,20 +1,13 @@
-package peyto.ide.dto;
-
-import java.util.Date;
+package peyto.ide.data;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class TemplateCategoryDto {
+public class TemplateCategoryData {
 
 	private long id;
 	private String categoryCode;
 	private String categoryName;
 	private String description;
-	private String createdBy;
-	private Date createdDate;
-	private String updatedBy;
-	private Date updatedDate;
-
 	public long getId() {
 		return id;
 	}
@@ -45,38 +38,6 @@ public class TemplateCategoryDto {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
 	}
 
 	@Override

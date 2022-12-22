@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="peyto.ide.dao.api.TemplatesDao">
+
+	<insert id="add">
+		INSERT INTO
+			ide_templates
+			(category_code, revision, revision_name, content, created_by, created_date)
+		VALUES (
+			#{categoryCode}
+			, #{revision}
+			, #{revisionName}
+			, #{content}
+			, #{createdBy}
+			, #{createdDate}
+		)
+	</insert>
+
+	<select id="getCountByCategoryCode" resultType="Integer">
+		select
+			max(revision)
+		from
+			ide_templates
+		where
+			category_code = #{categoryCode}
+	</select>
+
+	<select id="getItem" resultType="peyto.ide.dto.TemplateDto">
+		select
+		    id
+		    , category_code
+			, revision
+			, revision_name
+			, content
+			, created_by
+			, created_date
+			, updated_by
+			, updated_date
+		from
+			ide_templates
+		where
+			id = #{id}
+    </select>
+
+	<select id="getItemsByCategoryCode" resultType="peyto.ide.dto.TemplateDto">
+		select
+			id
+			, category_code
+			, revision
+			, revision_name
+			, content
+			, created_by
+			, created_date
+			, updated_by
+			, updated_date
+		from
+			ide_templates
+		where
+			category_code = #{categoryCode}
+		order by
+			revision desc
+	</select>
+
+	<update id="update">
+		UPDATE
+			ide_templates
+		SET
+			category_code = #{categoryCode}
+			, revision_name = #{revisionName}
+			, content = #{content}
+			, updated_by = #{updatedBy}
+			, updated_date = #{updatedDate}
+		WHERE
+			id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM
+			ide_templates
+		WHERE
+			id = #{id}
+	</delete>
+
+</mapper>

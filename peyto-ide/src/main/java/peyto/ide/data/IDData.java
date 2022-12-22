@@ -6,6 +6,13 @@ public class IDData {
 
 	private long id;
 
+	public IDData() {
+	}
+
+	public IDData(long id) {
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}

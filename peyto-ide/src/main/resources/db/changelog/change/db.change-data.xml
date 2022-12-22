@@ -639,82 +639,35 @@
 			<column name="created_date" valueDate="now()" />
 		</insert>
 		
-			<!-- ****************************************************************** -->
-	
+		<!-- ****************************************************************** -->
+
 		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
+			<column name="category_code" value="BACKEND-SPRING-RESOURCE-DTO" />
+			<column name="category_name" value="BACKEND-SPRING-RESOURCE-DTO" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+
+		<insert tableName="ide_template_categories">
+			<column name="category_code" value="BACKEND-SPRING-RESOURCE" />
+			<column name="category_name" value="BACKEND-SPRING-RESOURCE" />
+			<column name="created_by" value="kevin" />
+			<column name="created_date" valueDate="now()" />
+		</insert>
+
+		<insert tableName="ide_template_categories">
+            <column name="category_code" value="BACKEND-SPRING-SERVICE" />
+            <column name="category_name" value="BACKEND-SPRING-SERVICE" />
 			<column name="created_by" value="kevin" />
 			<column name="created_date" valueDate="now()" />
 		</insert>
 	
 		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
+            <column name="category_code" value="FRONTEND-REACT-REACT-QUERY" />
+            <column name="category_name" value="FRONTEND-REACT-REACT-QUERY" />
 			<column name="created_by" value="kevin" />
 			<column name="created_date" valueDate="now()" />
 		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="depth" value="0" />
-			<column name="name" value="1" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="parent_id" value="1" />
-			<column name="depth" value="1" />
-			<column name="name" value="2" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="parent_id" value="1" />
-			<column name="depth" value="1" />
-			<column name="name" value="2" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="parent_id" value="1" />
-			<column name="depth" value="1" />
-			<column name="name" value="2" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
-		<insert tableName="ide_template_categories">
-			<column name="parent_id" value="1" />
-			<column name="depth" value="1" />
-			<column name="name" value="2" />
-			<column name="created_by" value="kevin" />
-			<column name="created_date" valueDate="now()" />
-		</insert>
-	
 		<rollback />
     </changeSet>
 	
