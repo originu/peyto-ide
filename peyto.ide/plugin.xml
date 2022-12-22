@@ -9,10 +9,10 @@
             id="peyto.ide">
       </category>
       <view
-            id="peyto.ide.views.DBErdView"
-            name="DB ERD"
+            id="peyto.ide.views.DBTablesView"
+            name="DB Tables"
             icon="icons/sample.png"
-            class="peyto.ide.views.DBErdView"
+            class="peyto.ide.views.DBTablesView"
             category="peyto.ide"
             inject="true">
       </view>

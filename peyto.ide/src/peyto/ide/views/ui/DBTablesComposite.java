@@ -1,4 +1,4 @@
-package peyto.ide.views.erd;
+package peyto.ide.views.ui;
 
 import java.util.List;
 
@@ -14,8 +14,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -39,24 +37,23 @@ import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
 
-public class DBTableListUI extends Composite {
+public class DBTablesComposite extends Composite {
 	
 	private Combo tableCombo;
 	private Text filterText;
-	private Table table;
 	private TableViewer tableViewer;
 
 	private ApplicationContext applicationContext;
 	
 	private HttpService httpService;
-	private DBColumnListUI dbColumnListUI;
+	private DBColumnsComposite dbColumnsComposite;
 	
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public DBTableListUI(Composite parent, int style) {
+	public DBTablesComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(3, false));
 
@@ -132,7 +129,7 @@ public class DBTableListUI extends Composite {
 				return super.getText(element);
 			}
 		});
-		table = tableViewer.getTable();
+		Table table = tableViewer.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		table.setLinesVisible(true);
 		table.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );
@@ -165,7 +162,7 @@ public class DBTableListUI extends Composite {
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection	selection	= (IStructuredSelection)event.getSelection();
 				DBTableDto selectedDBTableDto = ( DBTableDto)selection.getFirstElement();
-				dbColumnListUI.updateTableData(selectedDBTableDto);
+				dbColumnsComposite.updateTableData(selectedDBTableDto);
 			}
 		});
 		table.addKeyListener( new KeyAdapter() {
@@ -200,12 +197,12 @@ public class DBTableListUI extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void setDBColumnListUI(DBColumnListUI dbColumnListUI) {
-		this.dbColumnListUI = dbColumnListUI;
+	public void setDBColumnsComposite(DBColumnsComposite dbColumnsComposite) {
+		this.dbColumnsComposite = dbColumnsComposite;
 	}
 	
-	public DBColumnListUI getDBColumnListUI() {
-		return dbColumnListUI;
+	public DBColumnsComposite getDBColumnsComposite() {
+		return dbColumnsComposite;
 	}
 
 	public ApplicationContext getApplicationContext() {

@@ -13,8 +13,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import peyto.ide.views.erd.DBColumnListUI;
-import peyto.ide.views.erd.DBTableListUI;
+import peyto.ide.views.ui.DBColumnsComposite;
+import peyto.ide.views.ui.DBTablesComposite;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Label;
 
 
 /**
@@ -35,15 +38,15 @@ import peyto.ide.views.erd.DBTableListUI;
  * <p>
  */
 
-public class DBErdView extends ViewPart {
+public class DBTablesView extends ViewPart {
 
-	public static final String ID = DBErdView.class.getName(); //$NON-NLS-1$
+	public static final String ID = DBTablesView.class.getName(); //$NON-NLS-1$
 	private final FormToolkit toolkit = new FormToolkit(Display.getCurrent());
 
 	@Inject
 	private AbstractApplicationContext appContext;
 	
-	public DBErdView() {
+	public DBTablesView() {
 	}
 	
 	@PostConstruct
@@ -56,29 +59,28 @@ public class DBErdView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		Composite container = toolkit.createComposite(parent, SWT.NONE);
-		toolkit.paintBordersFor(container);
-		container.setLayout(new FillLayout(SWT.HORIZONTAL));
+		parent.setLayout(new GridLayout(1, false));
 		
-		SashForm sashForm = new SashForm(container, SWT.NONE);
+		SashForm sashForm = new SashForm(parent, SWT.NONE);
+		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
 		
-		DBTableListUI dbTableListUIComposite = new DBTableListUI(sashForm, SWT.NONE);
+		DBTablesComposite dbTableListUIComposite = new DBTablesComposite(sashForm, SWT.NONE);
 		dbTableListUIComposite.setApplicationContext(appContext);
 		dbTableListUIComposite.init();
 		toolkit.adapt(dbTableListUIComposite);
 		toolkit.paintBordersFor(dbTableListUIComposite);
 		
-		DBColumnListUI dbColumnListUIComposite = new DBColumnListUI(sashForm, SWT.NONE);
+		DBColumnsComposite dbColumnListUIComposite = new DBColumnsComposite(sashForm, SWT.NONE);
 		dbColumnListUIComposite.setApplicationContext(appContext);
 		dbColumnListUIComposite.init();
-
-		dbTableListUIComposite.setDBColumnListUI(dbColumnListUIComposite);
 		
-		toolkit.adapt(dbColumnListUIComposite);
-		toolkit.paintBordersFor(dbColumnListUIComposite);
-		sashForm.setWeights(new int[] {332, 659});
+				dbTableListUIComposite.setDBColumnsComposite(dbColumnListUIComposite);
+				
+				toolkit.adapt(dbColumnListUIComposite);
+				toolkit.paintBordersFor(dbColumnListUIComposite);
+				sashForm.setWeights(new int[] {10, 25});
 
 		createActions();
 		// Uncomment if you wish to add code to initialize the toolbar
