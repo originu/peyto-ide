@@ -218,7 +218,7 @@ public class MessageFieldComposite extends Composite {
 		this.httpService = appContext.getBean(HttpService.class);
 		MessageDto data = editorInput.getData();
 		String resourcePath = String.format( "/api/message/%s/messagefield?messageFieldType=%s", data.getMessageId(), getMessageFieldType());
-		httpService.callAsync(resourcePath, new ResponseHandler() {
+		httpService.get(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
 				try {

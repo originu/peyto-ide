@@ -167,7 +167,7 @@ public class TemplateEditorCategoriesComposite extends Composite {
 	
 	private void updateContent() {
 		String resourcePath = String.format("/api/template-category");
-		httpService.callAsync(resourcePath, new ResponseHandler() {
+		httpService.get(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
 				try {

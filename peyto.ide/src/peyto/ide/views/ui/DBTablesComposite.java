@@ -70,7 +70,7 @@ public class DBTablesComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				String schemaName = ( ( Combo )e.getSource() ).getText();
 				String resourcePath = String.format( "/api/db/catalog/%s/schema/%s", "postgres", schemaName);
-				httpService.callAsync(resourcePath, new ResponseHandler() {
+				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
 						try {
@@ -94,7 +94,7 @@ public class DBTablesComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String resourcePath = String.format( "/api/db/catalog/%s/schema", "postgres");
-				httpService.callAsync(resourcePath, new ResponseHandler() {
+				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
 						try {

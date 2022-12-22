@@ -155,7 +155,7 @@ public class TemplateEditorTemplatesComposite extends Composite {
 	public void updateTemplatesByCategoryCode(TemplateCategoryDto templateCategoryDto) {
 		this.templateCategoryDto = templateCategoryDto;		
 		String resourcePath = String.format("/api/template?categoryCode=%s", templateCategoryDto.getCategoryCode());
-		httpService.callAsync(resourcePath, new ResponseHandler() {
+		httpService.get(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
 				try {
@@ -183,7 +183,7 @@ public class TemplateEditorTemplatesComposite extends Composite {
 	
 	private void updateContent(long id) {
 		String resourcePath = String.format("/api/template/%s", id);
-		httpService.callAsync(resourcePath, new ResponseHandler() {
+		httpService.get(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
 				try {

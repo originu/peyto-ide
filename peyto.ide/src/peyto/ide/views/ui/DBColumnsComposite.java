@@ -99,7 +99,7 @@ public class DBColumnsComposite extends Composite {
 	
 	public void updateTableData(DBTableDto dto) {
 		String resourcePath = String.format( "/api/db/catalog/%s/schema/%s/table/%s", dto.getTableCatalog(), dto.getTableSchema(), dto.getTableName());
-		httpService.callAsync(resourcePath, new ResponseHandler() {
+		httpService.get(resourcePath, new ResponseHandler() {
 			@Override
 			public void completed(SimpleHttpResponse response) {
 				try {

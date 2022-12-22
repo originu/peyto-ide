@@ -95,7 +95,7 @@ public class MessageBuilderComposite extends Composite {
 					ApplicationDto dto = (ApplicationDto)s.getFirstElement();
 					
 					String resourcePath = String.format( "/api/message-channel?applicationId=%s", dto.getApplicationId());
-					httpService.callAsync(resourcePath, new ResponseHandler() {
+					httpService.get(resourcePath, new ResponseHandler() {
 						@Override
 						public void completed(SimpleHttpResponse response) {
 							try {
@@ -120,7 +120,7 @@ public class MessageBuilderComposite extends Composite {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				String resourcePath = String.format( "/api/application");
-				httpService.callAsync(resourcePath, new ResponseHandler() {
+				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
 						try {
@@ -168,7 +168,7 @@ public class MessageBuilderComposite extends Composite {
 					MessageChannelDto dto = (MessageChannelDto)s.getFirstElement();
 					
 					String resourcePath = String.format( "/api/message?messageChannelId=%s", dto.getMessageChannelId());
-					httpService.callAsync(resourcePath, new ResponseHandler() {
+					httpService.get(resourcePath, new ResponseHandler() {
 						@Override
 						public void completed(SimpleHttpResponse response) {
 							try {
@@ -196,7 +196,7 @@ public class MessageBuilderComposite extends Composite {
 				StructuredSelection s = (StructuredSelection)messageChannelComboViewer.getSelection();
 				MessageChannelDto dto = (MessageChannelDto)s.getFirstElement();
 				String resourcePath = String.format( "/api/message-channel?applicationId=%s", dto.getApplicationId());
-				httpService.callAsync(resourcePath, new ResponseHandler() {
+				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
 						try {
