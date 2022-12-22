@@ -16,6 +16,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -88,14 +89,13 @@ public class DBTableListUI extends Composite {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 //				updateDBTables( e.text );
-				System.out.println();
 			}
 		});
 		
 		Button refreshButton = new Button(this, SWT.NONE);
-		refreshButton.addMouseListener(new MouseAdapter() {
+		refreshButton.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void mouseDown(MouseEvent e) {
+			public void widgetSelected(SelectionEvent e) {
 				String resourcePath = String.format( "/api/db/catalog/%s/schema", "postgres");
 				httpService.callAsync(resourcePath, new ResponseHandler() {
 					@Override
@@ -136,7 +136,6 @@ public class DBTableListUI extends Composite {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 		table.setLinesVisible(true);
 		table.setHeaderBackground( Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND) );
-		
 		table.setHeaderVisible( true );
 		TableViewerColumn logicalTableNameColumn = new TableViewerColumn(tableViewer, SWT.NONE);
 		logicalTableNameColumn.getColumn().setWidth(160);

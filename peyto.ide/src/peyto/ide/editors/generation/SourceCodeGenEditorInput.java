@@ -1,17 +1,17 @@
-package peyto.ide.editors.message;
+package peyto.ide.editors.generation;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import peyto.ide.core.data.MessageDto;
+import peyto.ide.core.model.ManifestModel;
 
-public class MessageFieldEditorInput implements IEditorInput {
+public class SourceCodeGenEditorInput implements IEditorInput {
 
-	private MessageDto data;
+	private ManifestModel data;
 	
-	public MessageFieldEditorInput(MessageDto data) {
-		this.setData(data);
+	public SourceCodeGenEditorInput(ManifestModel model) {
+		this.setData(getData());
 	}
 	
 	@Override
@@ -31,7 +31,7 @@ public class MessageFieldEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		return getData().getMessageName();
+		return getData().getMetadata().getKind();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class MessageFieldEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return getData().getMessageDescription();
+		return getData().getMetadata().getKind();
 	}
 	
 	@Override
@@ -55,16 +55,16 @@ public class MessageFieldEditorInput implements IEditorInput {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MessageFieldEditorInput selectedObj = (MessageFieldEditorInput) obj;
-		return selectedObj.getName().equals(this.getName());
+		return getData().getMetadata().getKind().equals(this.getName());
 	}
 
-	public MessageDto getData() {
+	public ManifestModel getData() {
 		return data;
 	}
 
-	public void setData(MessageDto data) {
+	public void setData(ManifestModel data) {
 		this.data = data;
 	}
+
 
 }

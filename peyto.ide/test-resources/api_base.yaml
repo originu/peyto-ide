@@ -1,0 +1,46 @@
+formatVersion: 1
+metadata:
+  kind: entity
+  input:
+    - entityName
+  groups:
+    - name: backend
+      items: 
+        - name: resource
+          spec:
+            project:
+              name: sample-backend
+            target:
+              path: src/main/java/sample/web/resource
+              packageName: sample.web.resource
+              name: ${entityName}Resource 
+              extension: java
+            template:
+              id: 1
+              revision: 1
+        - name: service
+          spec:
+            project:
+              name: sample-backend
+            target:
+              path: src/main/java/sample/service
+              packageName: sample.service
+              name: ${entityName}Service
+              extension: java
+            template:
+              id: 2
+              revision: 2
+    - name: frontend
+      items: 
+        - name: react-query
+          spec:
+            project:
+              name: sample-frontend
+            target:
+              path: src/framework/api
+              packageName: src/framework/api
+              name: ${entityName} 
+              extension: ts
+            template:
+              id: 1
+              revision: 1

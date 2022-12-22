@@ -75,6 +75,14 @@
             id="peyto.ide.editors.message.MessageFieldEditor"
             name="Peyto Field">
       </editor>
+      <editor
+            class="peyto.ide.editors.template.TemplateEditor"
+            contributorClass="peyto.ide.editors.template.TemplateEditorContributor"
+            extensions="p04"
+            icon="icons/sample.png"
+            id="peyto.ide.editors.template.TemplateEditor"
+            name="Peyto Template">
+      </editor>
    </extension>
 
 </plugin>

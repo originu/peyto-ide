@@ -17,6 +17,7 @@ Bundle-ClassPath: lib/httpclient5-5.1.2.jar,
  lib/commons-logging-1.2.jar,
  lib/spring-aop-5.3.23.jar,
  lib/spring-expression-5.3.23.jar,
+ lib/snakeyaml-1.33.jar,
  .
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

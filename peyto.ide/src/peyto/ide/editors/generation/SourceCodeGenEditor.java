@@ -1,9 +1,11 @@
 package peyto.ide.editors.generation;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -16,12 +18,15 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.yaml.snakeyaml.Yaml;
 
+import peyto.ide.core.model.ManifestModel;
 import peyto.ide.core.service.types.SourceGroupType;
 
 public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	private AbstractApplicationContext appContext;
+	private ManifestModel manifestModel;
 	
 	public SourceCodeGenEditor() {
 		super();
@@ -32,6 +37,7 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 		SourceCodeGenConfigComposite configComposite = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
 		configComposite.setApplicationContext(appContext);
 		configComposite.setJavaMybatisGenEditor(this);
+		configComposite.setManifestModel(manifestModel);
 		configComposite.init();
 		int index = addPage(configComposite );
 		setPageText(index, "Configuration");
@@ -40,6 +46,7 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 		composite1.setApplicationContext(appContext);
 		index = addPage(composite1 );
 		setPageText(index, "DAO");
+		
 		
 //			ErrorDialog.openError(
 //				getSite().getShell(),
@@ -115,6 +122,15 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 		super.init(site, editorInput);
 		// DI
 		appContext = getSite().getService(AbstractApplicationContext.class);
+		IFile file = ((IFileEditorInput)editorInput).getFile();
+		try {
+			Yaml yaml = new Yaml();
+			ManifestModel manifestModel = yaml.loadAs(file.getContents(), ManifestModel.class);
+			setPartName(file.getName());
+			this.manifestModel = manifestModel;
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart.
