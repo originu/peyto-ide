@@ -19,8 +19,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -116,9 +116,9 @@ public class MessageBuilderComposite extends Composite {
 		
 		Button applicationRefreshButton = new Button(this, SWT.NONE);
 		applicationRefreshButton.setText("Refresh");
-		applicationRefreshButton.addMouseListener(new MouseAdapter() {
+		applicationRefreshButton.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void mouseDown(MouseEvent e) {
+			public void widgetSelected(SelectionEvent e) {			
 				String resourcePath = String.format( "/api/application");
 				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
@@ -190,9 +190,9 @@ public class MessageBuilderComposite extends Composite {
 		
 		Button messageChannelRefreshButton = new Button(this, SWT.NONE);
 		messageChannelRefreshButton.setText("Refresh");
-		messageChannelRefreshButton.addMouseListener(new MouseAdapter() {
+		messageChannelRefreshButton.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void mouseDown(MouseEvent e) {
+			public void widgetSelected(SelectionEvent e) {
 				StructuredSelection s = (StructuredSelection)messageChannelComboViewer.getSelection();
 				MessageChannelDto dto = (MessageChannelDto)s.getFirstElement();
 				String resourcePath = String.format( "/api/message-channel?applicationId=%s", dto.getApplicationId());
