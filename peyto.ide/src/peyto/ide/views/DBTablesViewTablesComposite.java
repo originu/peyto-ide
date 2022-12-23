@@ -1,4 +1,4 @@
-package peyto.ide.views.ui;
+package peyto.ide.views;
 
 import java.util.List;
 
@@ -37,23 +37,23 @@ import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
 
-public class DBTablesComposite extends Composite {
+public class DBTablesViewTablesComposite extends Composite {
 	
 	private Combo tableCombo;
 	private Text filterText;
 	private TableViewer tableViewer;
 
 	private ApplicationContext applicationContext;
-	
 	private HttpService httpService;
-	private DBColumnsComposite dbColumnsComposite;
+	
+	private DBTablesViewColumnsComposite dbTablesViewColumnsComposite;
 	
 	/**
 	 * Create the composite.
 	 * @param parent
 	 * @param style
 	 */
-	public DBTablesComposite(Composite parent, int style) {
+	public DBTablesViewTablesComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(3, false));
 
@@ -162,7 +162,7 @@ public class DBTablesComposite extends Composite {
 			public void doubleClick(DoubleClickEvent event) {
 				IStructuredSelection	selection	= (IStructuredSelection)event.getSelection();
 				DBTableDto selectedDBTableDto = ( DBTableDto)selection.getFirstElement();
-				dbColumnsComposite.updateTableData(selectedDBTableDto);
+				dbTablesViewColumnsComposite.updateTableData(selectedDBTableDto);
 			}
 		});
 		table.addKeyListener( new KeyAdapter() {
@@ -197,12 +197,12 @@ public class DBTablesComposite extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void setDBColumnsComposite(DBColumnsComposite dbColumnsComposite) {
-		this.dbColumnsComposite = dbColumnsComposite;
+	public void setDBTablesViewColumnsComposite(DBTablesViewColumnsComposite dbTablesViewColumnsComposite) {
+		this.dbTablesViewColumnsComposite = dbTablesViewColumnsComposite;
 	}
 	
-	public DBColumnsComposite getDBColumnsComposite() {
-		return dbColumnsComposite;
+	public DBTablesViewColumnsComposite getDBTablesViewColumnsComposite() {
+		return dbTablesViewColumnsComposite;
 	}
 
 	public ApplicationContext getApplicationContext() {

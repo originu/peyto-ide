@@ -1,4 +1,4 @@
-package peyto.ide.views.ui;
+package peyto.ide.views;
 
 import java.util.List;
 
@@ -29,10 +29,9 @@ import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
 import peyto.ide.editors.message.dnd.MessageFieldDtoDragAndDropTransfer;
-import peyto.ide.views.dnd.DBColumnDtoDragAndDropTransfer;
 import peyto.ide.views.dnd.DBColumnDtoDragSourceListener;
 
-public class DBColumnsComposite extends Composite {
+public class DBTablesViewColumnsComposite extends Composite {
 	
 	private TableViewer tableViewer;
 	private Table table;
@@ -45,7 +44,7 @@ public class DBColumnsComposite extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public DBColumnsComposite(Composite parent, int style) {
+	public DBTablesViewColumnsComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		new Label(this, SWT.NONE);

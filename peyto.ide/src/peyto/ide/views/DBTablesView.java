@@ -12,9 +12,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.ViewPart;
 import org.springframework.context.support.AbstractApplicationContext;
-
-import peyto.ide.views.ui.DBColumnsComposite;
-import peyto.ide.views.ui.DBTablesComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Label;
@@ -66,21 +63,21 @@ public class DBTablesView extends ViewPart {
 		toolkit.adapt(sashForm);
 		toolkit.paintBordersFor(sashForm);
 		
-		DBTablesComposite dbTableListUIComposite = new DBTablesComposite(sashForm, SWT.NONE);
-		dbTableListUIComposite.setApplicationContext(appContext);
-		dbTableListUIComposite.init();
-		toolkit.adapt(dbTableListUIComposite);
-		toolkit.paintBordersFor(dbTableListUIComposite);
+		DBTablesViewTablesComposite dbTablesViewTablesComposite = new DBTablesViewTablesComposite(sashForm, SWT.NONE);
+		dbTablesViewTablesComposite.setApplicationContext(appContext);
+		dbTablesViewTablesComposite.init();
+		toolkit.adapt(dbTablesViewTablesComposite);
+		toolkit.paintBordersFor(dbTablesViewTablesComposite);
 		
-		DBColumnsComposite dbColumnListUIComposite = new DBColumnsComposite(sashForm, SWT.NONE);
-		dbColumnListUIComposite.setApplicationContext(appContext);
-		dbColumnListUIComposite.init();
-		
-				dbTableListUIComposite.setDBColumnsComposite(dbColumnListUIComposite);
-				
-				toolkit.adapt(dbColumnListUIComposite);
-				toolkit.paintBordersFor(dbColumnListUIComposite);
-				sashForm.setWeights(new int[] {10, 25});
+		DBTablesViewColumnsComposite dbTablesViewColumnsComposite = new DBTablesViewColumnsComposite(sashForm, SWT.NONE);
+		dbTablesViewColumnsComposite.setApplicationContext(appContext);
+		dbTablesViewColumnsComposite.init();
+
+		dbTablesViewTablesComposite.setDBTablesViewColumnsComposite(dbTablesViewColumnsComposite);
+
+		toolkit.adapt(dbTablesViewColumnsComposite);
+		toolkit.paintBordersFor(dbTablesViewColumnsComposite);
+		sashForm.setWeights(new int[] { 10, 25 });
 
 		createActions();
 		// Uncomment if you wish to add code to initialize the toolbar
