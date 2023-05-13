@@ -14,7 +14,6 @@ public class DBColumnDto {
 	private String dataType;
 	private String characterMaximumLength;
 	private String numericPrecision;
-	private String numericPrecisionRadix;
 	private String numericScale;
 	private String datetimePrecision;
 	private int pkOrder;
@@ -97,14 +96,6 @@ public class DBColumnDto {
 
 	public void setNumericPrecision(String numericPrecision) {
 		this.numericPrecision = numericPrecision;
-	}
-
-	public String getNumericPrecisionRadix() {
-		return numericPrecisionRadix;
-	}
-
-	public void setNumericPrecisionRadix(String numericPrecisionRadix) {
-		this.numericPrecisionRadix = numericPrecisionRadix;
 	}
 
 	public String getNumericScale() {

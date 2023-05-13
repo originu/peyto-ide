@@ -58,7 +58,6 @@
 	        , c.data_type
 	        , c.character_maximum_length
 	        , c.numeric_precision
-	        , c.numeric_precision_radix
 	        , c.numeric_scale
 	        , c.datetime_precision
 	        , ( CASE WHEN cc.constraint_type = 'PRIMARY KEY' 

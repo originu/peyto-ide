@@ -58,7 +58,6 @@
 	        , c.data_type
 	        , c.character_maximum_length
 	        , c.numeric_precision
-	        , c.numeric_precision_radix
 	        , c.numeric_scale
 	        , c.datetime_precision
 	        , ( CASE WHEN cc.constraint_type = 'PRIMARY KEY' 
@@ -75,13 +74,13 @@
 	               , ccu.table_name
 	               , ccu.column_name
 	               , tc.constraint_type
-	        from information_schema.constraint_column_usage as ccu
+	        from information_schema.key_column_usage as ccu
 	        inner join information_schema.table_constraints as tc
-	            on  ccu.table_catalog   = tc.table_catalog
+	            on  ccu.table_catalog   = tc.constraint_catalog
 	            and ccu.table_schema    = tc.table_schema
 	            and ccu.table_name      = tc.table_name
 				and ccu.constraint_name = tc.constraint_name
-	        where tc.table_catalog      = #{catalogName}
+	        where tc.constraint_catalog = #{catalogName}
 	            and tc.table_schema     = #{schemaName}  
 	            and tc.table_name       = #{tableName}
 	            and tc.constraint_type  = 'PRIMARY KEY'
