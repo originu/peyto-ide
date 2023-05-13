@@ -16,7 +16,7 @@ metadata:
               name: ${entityName}Resource 
               extension: java
             template:
-              id: 1
+              categoryCode: BACKEND-SPRING-RESOURCE
               revision: 1
         - name: service
           spec:
@@ -28,8 +28,8 @@ metadata:
               name: ${entityName}Service
               extension: java
             template:
-              id: 2
-              revision: 2
+              categoryCode: BACKEND-SPRING-SERVICE
+              revision: 1
     - name: frontend
       items: 
         - name: react-query
@@ -42,5 +42,5 @@ metadata:
               name: ${entityName} 
               extension: ts
             template:
-              id: 1
+              categoryCode: FRONTEND-REACT-REACT-QUERY
               revision: 1
