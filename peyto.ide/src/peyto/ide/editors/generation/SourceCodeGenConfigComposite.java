@@ -1,10 +1,6 @@
 package peyto.ide.editors.generation;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -16,40 +12,44 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.yaml.snakeyaml.Yaml;
+import org.springframework.context.ApplicationContext;
 
-import peyto.ide.core.data.DBTableDto;
-import peyto.ide.core.data.MessageFieldDto;
 import peyto.ide.core.model.GroupModel;
 import peyto.ide.core.model.ItemModel;
 import peyto.ide.core.model.ManifestModel;
-import peyto.ide.core.service.SimpleSourceCodeService;
-import peyto.ide.core.service.types.SourceGroupType;
+import peyto.ide.core.model.MetadataModel;
 import peyto.ide.editors.generation.ui.ManifestContentProvider;
-import peyto.ide.editors.message.ui.MessageFieldTreeElement;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Text;
 
 public class SourceCodeGenConfigComposite extends Composite {
 	private final FormToolkit formToolkit = new FormToolkit(Display.getDefault());
 
-	private AbstractApplicationContext appContext;
+	private ApplicationContext appContext;
 	
 	private SourceCodeGenEditor sourceCodeGenEditor;
 	
 	private TreeViewer treeViewer;
 
-	private ManifestModel manifestModel; 
+	private ManifestModel manifestModel;
+	
+	private Composite templateItemComposite;
+	private Text schemaText;
+	private Text tableText;
+	
+	
 	
 	/**
 	 * Create the composite.
@@ -67,12 +67,12 @@ public class SourceCodeGenConfigComposite extends Composite {
 		formToolkit.adapt(sashForm);
 		formToolkit.paintBordersFor(sashForm);
 		
-		Composite composite_1 = new Composite(sashForm, SWT.NONE);
-		formToolkit.adapt(composite_1);
-		formToolkit.paintBordersFor(composite_1);
-		composite_1.setLayout(new GridLayout(1, false));
+		Composite templateGroupComposite = new Composite(sashForm, SWT.NONE);
+		formToolkit.adapt(templateGroupComposite);
+		formToolkit.paintBordersFor(templateGroupComposite);
+		templateGroupComposite.setLayout(new GridLayout(1, false));
 		
-		treeViewer = new TreeViewer(composite_1, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
+		treeViewer = new TreeViewer(templateGroupComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 		treeViewer.setContentProvider(new ManifestContentProvider());
 		Tree tree = treeViewer.getTree();
 		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -95,11 +95,11 @@ public class SourceCodeGenConfigComposite extends Composite {
 		});
 		
 		// add columns of table
-		TreeViewerColumn messageFieldNameColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
-		messageFieldNameColumn.getColumn().setWidth(160);
-		messageFieldNameColumn.getColumn().setResizable(true);
-		messageFieldNameColumn.getColumn().setText("template");
-		messageFieldNameColumn.setLabelProvider(new ColumnLabelProvider() {
+		TreeViewerColumn manifestColumn = new TreeViewerColumn(treeViewer, SWT.NONE);
+		manifestColumn.getColumn().setWidth(160);
+		manifestColumn.getColumn().setResizable(true);
+		manifestColumn.getColumn().setText("manifest");
+		manifestColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				if (element instanceof ManifestModel) {
@@ -115,10 +115,47 @@ public class SourceCodeGenConfigComposite extends Composite {
 			}
 		});
 		
-		Composite composite = new Composite(sashForm, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
+		templateItemComposite = new Composite(sashForm, SWT.NONE);
+		formToolkit.adapt(templateItemComposite);
+		formToolkit.paintBordersFor(templateItemComposite);
+		RowLayout rl_templateItemComposite = new RowLayout(SWT.HORIZONTAL);
+		rl_templateItemComposite.pack = false;
+		templateItemComposite.setLayout(rl_templateItemComposite);
+		
+		Composite composite = new Composite(templateItemComposite, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
+		composite.setLayoutData(new RowData(600, 160));
 		formToolkit.adapt(composite);
 		formToolkit.paintBordersFor(composite);
+		
+		Label schemaLabel = new Label(composite, SWT.NONE);
+		schemaLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		formToolkit.adapt(schemaLabel, true, true);
+		schemaLabel.setText("Schema");
+		
+		schemaText = new Text(composite, SWT.BORDER);
+		schemaText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		formToolkit.adapt(schemaText, true, true);
+		
+		Label tableLabel = new Label(composite, SWT.NONE);
+		tableLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		formToolkit.adapt(tableLabel, true, true);
+		tableLabel.setText("Table");
+		
+		tableText = new Text(composite, SWT.BORDER);
+		tableText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		formToolkit.adapt(tableText, true, true);
+		new Label(composite, SWT.NONE);
+		
+		Button generateButton = new Button(composite, SWT.NONE);
+		generateButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				generate();                                                                                                                                                                                                                           
+			}
+		});
+		formToolkit.adapt(generateButton, true, true);
+		generateButton.setText("Generate");
 		sashForm.setWeights(new int[] {1, 4});
 	}
 
@@ -127,11 +164,11 @@ public class SourceCodeGenConfigComposite extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void setJavaMybatisGenEditor(SourceCodeGenEditor javaMybatisGenEditor) {
-		this.sourceCodeGenEditor = javaMybatisGenEditor;		
+	public void setSourceCodeGenEditor(SourceCodeGenEditor sourceCodeGenEditor) {
+		this.sourceCodeGenEditor = sourceCodeGenEditor;		
 	}
 
-	public void setApplicationContext(AbstractApplicationContext appContext) {
+	public void setApplicationContext(ApplicationContext appContext) {
 		this.appContext = appContext;
 	}
 	
@@ -140,8 +177,28 @@ public class SourceCodeGenConfigComposite extends Composite {
 //		SourceGroupType[] values = SourceGroupType.values();
 		treeViewer.setInput(manifestModel);
 		treeViewer.expandAll();
+		
+		
+		MetadataModel metadata = manifestModel.getMetadata();
+		ArrayList<GroupModel> groups = metadata.getGroups();
+		for (GroupModel groupModel : groups) {
+			ArrayList<ItemModel> items = groupModel.getItems();
+			for (ItemModel itemModel : items) {
+				TemplateConfigComposite comp = new TemplateConfigComposite(templateItemComposite, SWT.None);
+				comp.setData(
+						itemModel.getName(), 
+						itemModel.getSpec().getProject().getName(),
+						itemModel.getSpec().getTarget().getPath(), 
+						itemModel.getSpec().getTarget().getName(), 
+						itemModel.getSpec().getTarget().getExtension(), 
+						itemModel.getSpec().getTarget().getPackageName(),
+						itemModel.getSpec().getTemplate().getCategoryCode(),
+						itemModel.getSpec().getTemplate().getRevision()
+						);
+			}
+		}
 	}
-	
+		
 	// ========================================================================
 	private IFolder createOrGetFolder(IProject project, String path) throws CoreException {
 		String[] folderNames = path.split("/");
@@ -167,4 +224,28 @@ public class SourceCodeGenConfigComposite extends Composite {
 		this.manifestModel = manifestModel;
 	}
 	
+	private void generate() {
+		String schema = schemaText.getText();
+		String table = tableText.getText();
+				
+		
+		MetadataModel metadata = manifestModel.getMetadata();
+		ArrayList<GroupModel> groups = metadata.getGroups();
+		for (GroupModel groupModel : groups) {
+			ArrayList<ItemModel> items = groupModel.getItems();
+			for (ItemModel itemModel : items) {
+				TemplateConfigComposite comp = new TemplateConfigComposite(templateItemComposite, SWT.None);
+				comp.setData(
+						itemModel.getName(), 
+						itemModel.getSpec().getProject().getName(),
+						itemModel.getSpec().getTarget().getPath(), 
+						itemModel.getSpec().getTarget().getName(), 
+						itemModel.getSpec().getTarget().getExtension(), 
+						itemModel.getSpec().getTarget().getPackageName(),
+						itemModel.getSpec().getTemplate().getCategoryCode(),
+						itemModel.getSpec().getTemplate().getRevision()
+						);
+			}
+		}
+	}
 }

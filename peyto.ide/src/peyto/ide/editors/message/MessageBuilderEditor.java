@@ -1,9 +1,11 @@
 package peyto.ide.editors.message;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -16,10 +18,15 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.yaml.snakeyaml.Yaml;
+
+import peyto.ide.core.model.api.ApiModel;
 
 public class MessageBuilderEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
 	private AbstractApplicationContext appContext;
+	
+	private ApiModel apiModel;
 	
 	public MessageBuilderEditor() {
 		super();
@@ -29,6 +36,7 @@ public class MessageBuilderEditor extends MultiPageEditorPart implements IResour
 	protected void createPages() {
 		MessageBuilderComposite messageBuilderComposite = new MessageBuilderComposite( getContainer(), SWT.NONE);
 		messageBuilderComposite.setApplicationContext(appContext);
+		messageBuilderComposite.setApiModel(apiModel);
 		messageBuilderComposite.init();
 		int index = addPage(messageBuilderComposite );
 		setPageText(index, "Message");
@@ -84,6 +92,14 @@ public class MessageBuilderEditor extends MultiPageEditorPart implements IResour
 		super.init(site, editorInput);
 		// DI
 		appContext = getSite().getService(AbstractApplicationContext.class);
+		IFile file = ((IFileEditorInput)editorInput).getFile();
+		try {
+			Yaml yaml = new Yaml();
+			apiModel = yaml.loadAs(file.getContents(), ApiModel.class);
+			setPartName(file.getName());
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart.

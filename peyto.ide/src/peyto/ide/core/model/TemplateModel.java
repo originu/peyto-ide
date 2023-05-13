@@ -4,31 +4,31 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class TemplateModel {
 
-	private long id;
-	private long revision;
+	private String categoryCode;
+	private int revision;
 
 	public TemplateModel() {
 	}
 
-	public TemplateModel(long id, long revision) {
+	public TemplateModel(String categoryCode, int revision) {
 		super();
-		this.id = id;
+		this.categoryCode = categoryCode;
 		this.revision = revision;
 	}
 
-	public long getId() {
-		return id;
+	public String getCategoryCode() {
+		return categoryCode;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
-	public long getRevision() {
+	public int getRevision() {
 		return revision;
 	}
 
-	public void setRevision(long revision) {
+	public void setRevision(int revision) {
 		this.revision = revision;
 	}
 

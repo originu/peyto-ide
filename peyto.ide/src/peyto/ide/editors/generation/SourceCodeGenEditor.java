@@ -36,7 +36,7 @@ public class SourceCodeGenEditor extends MultiPageEditorPart implements IResourc
 	protected void createPages() {
 		SourceCodeGenConfigComposite configComposite = new SourceCodeGenConfigComposite( getContainer(), SWT.NONE);
 		configComposite.setApplicationContext(appContext);
-		configComposite.setJavaMybatisGenEditor(this);
+		configComposite.setSourceCodeGenEditor(this);
 		configComposite.setManifestModel(manifestModel);
 		configComposite.init();
 		int index = addPage(configComposite );

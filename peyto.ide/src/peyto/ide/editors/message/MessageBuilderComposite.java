@@ -42,6 +42,7 @@ import peyto.ide.core.data.ApplicationDto;
 import peyto.ide.core.data.MessageChannelDto;
 import peyto.ide.core.data.MessageDto;
 import peyto.ide.core.data.ResData;
+import peyto.ide.core.model.api.ApiModel;
 import peyto.ide.core.service.HttpService;
 import peyto.ide.core.service.ResponseHandler;
 import peyto.ide.core.util.JsonUtil;
@@ -56,6 +57,8 @@ public class MessageBuilderComposite extends Composite {
 	private TableViewer messagesTableViewer;
 	private Table table;
 	private Text text;
+	
+	private ApiModel apiModel; 
 	
 	/**
 	 * Create the composite.
@@ -310,5 +313,13 @@ public class MessageBuilderComposite extends Composite {
 	
 	public void init() {
 		this.httpService = appContext.getBean(HttpService.class);
+	}
+
+	public ApiModel getApiModel() {
+		return apiModel;
+	}
+
+	public void setApiModel(ApiModel apiModel) {
+		this.apiModel = apiModel;
 	}
 }

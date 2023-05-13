@@ -18,7 +18,8 @@ Bundle-ClassPath: lib/httpclient5-5.1.2.jar,
  lib/spring-aop-5.3.23.jar,
  lib/spring-expression-5.3.23.jar,
  lib/snakeyaml-1.33.jar,
- .
+ .,
+ swing2swt.jar
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.11.400",

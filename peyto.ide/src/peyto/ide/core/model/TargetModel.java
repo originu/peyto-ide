@@ -8,17 +8,20 @@ public class TargetModel {
 	private String packageName;
 	private String name;
 	private String extension;
+	private String templateCategoryCode;
+	private int templateRevision;
 
-	public TargetModel() {
-	}
-
-	public TargetModel(String path, String packageName, String name, String extension) {
-		super();
-		this.path = path;
-		this.packageName = packageName;
-		this.name = name;
-		this.extension = extension;
-	}
+//	public TargetModel() {
+//	}
+//
+//	public TargetModel(String path, String packageName, String name, String extension, String templateCategoryCode, int templateRevision) {
+//		this.path = path;
+//		this.packageName = packageName;
+//		this.name = name;
+//		this.extension = extension;
+//		this.templateCategoryCode = templateCategoryCode;
+//		this.templateRevision = templateRevision;
+//	}
 
 	public String getPath() {
 		return path;
@@ -52,6 +55,22 @@ public class TargetModel {
 		this.extension = extension;
 	}
 
+	public String getTemplateCategoryCode() {
+		return templateCategoryCode;
+	}
+
+	public void setTemplateCategoryCode(String templateCategoryCode) {
+		this.templateCategoryCode = templateCategoryCode;
+	}
+
+	public int getTemplateRevision() {
+		return templateRevision;
+	}
+
+	public void setTemplateRevision(int templateRevision) {
+		this.templateRevision = templateRevision;
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

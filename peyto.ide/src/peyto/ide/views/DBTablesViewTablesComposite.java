@@ -69,7 +69,7 @@ public class DBTablesViewTablesComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String schemaName = ( ( Combo )e.getSource() ).getText();
-				String resourcePath = String.format( "/api/db/catalog/%s/schema/%s", "postgres", schemaName);
+				String resourcePath = String.format( "/api/db/catalog/%s/schema/%s", "def", schemaName);
 				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
@@ -93,7 +93,7 @@ public class DBTablesViewTablesComposite extends Composite {
 		refreshButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String resourcePath = String.format( "/api/db/catalog/%s/schema", "postgres");
+				String resourcePath = String.format( "/api/db/catalog/%s/schema", "def");
 				httpService.get(resourcePath, new ResponseHandler() {
 					@Override
 					public void completed(SimpleHttpResponse response) {
